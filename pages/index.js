@@ -2,26 +2,23 @@ import Head from 'next/head'
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <div className="flex flex-col items-center justify-center min-h-screen py-2 font-mono">
       <Head>
-        <title>Create Next App</title>
+        <title>Tiket</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
+      <nav className="flex justify-between w-full border-b border-brown-100 p-4">
+        <div className="flex justify-between items-center h-12 p-4">
+          <img className="w-12 h-12 object-cover mr-4" src="/images/icon-50.png" />
+          <h1 className="font-bold text-3xl p-4 border-l-2 border-gray-500">
+            Tiket
+          </h1>
+        </div>
+      </nav>
 
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="p-3 font-mono text-lg bg-gray-100 rounded-md">
-            pages/index.js
-          </code>
-        </p>
+      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
+
 
         <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
           <a
@@ -66,15 +63,15 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="flex items-center justify-center w-full h-24 border-t">
+      <footer className="flex items-center justify-center w-full h-8 sm:h-16 border-t">
         <a
           className="flex items-center justify-center"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          href="https://kharioki.com/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="h-4 ml-2" />
+          Built by{' '}
+          <span className="font-bold ml-2 hover:text-[#533635]">Kharioki</span>
         </a>
       </footer>
     </div>

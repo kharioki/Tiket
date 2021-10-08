@@ -2,14 +2,14 @@ import { format } from 'date-fns';
 import { tickets } from '../utils/tickets';
 
 export function TicketCard() {
-  const ticket = tickets[0];
+  const ticket = tickets[1];
   return (
-    <div className="bg-secondary rounded-md shadow-lg m-2 md:m-10 flex flex-row flex-wrap justify-between w-full lg:w-2/3 h-2/3 justify-items-center">
+    <div className="bg-secondary rounded-md shadow-lg m-2 md:m-10 flex flex-row flex-wrap justify-between w-full lg:w-2/3 h-2/3 xl:h-3/4 justify-items-center">
       <div className="flex-1 py-6 px-6 bg-gradient-to-b sm:bg-gradient-to-r from-primary via-primary rounded-md md:w-1/2">
         <img src={ticket.image} className="w-full rounded-md object-cover" />
         <div className="mt-4 flex justify-center items-center w-full">
           <button className="border-primary sm:border-secondary border-2 hover:border-primary text-secondary font-md py-2 px-4 rounded-md">
-            Add Swag
+            Add Swag / Merchandise
           </button>
         </div>
       </div>
@@ -24,6 +24,10 @@ export function TicketCard() {
         </div>
         <div className="my-3 py-4 border-b-2 border-yellow-900">
           <span className="text-sm text-gray-500">{ticket.description}</span>
+        </div>
+
+        <div className="flex justify-between items-center">
+          <p>Merch / Swag</p>
         </div>
       </div>
     </div>

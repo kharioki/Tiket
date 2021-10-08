@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@tailwindcss/forms": "^0.3.4",
     "date-fns": "^2.25.0",
     "next": "latest",
     "react": "^17.0.2",

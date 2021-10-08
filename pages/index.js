@@ -1,9 +1,21 @@
+import React, { useState } from 'react';
 import Head from 'next/head';
 
 import { tickets } from '../utils/tickets';
 import { EventCard } from '../components/EventCard';
+import { Modal } from '../components/Modal';
 
 export default function Home() {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <div className="flex flex-1 flex-col min-h-screen py-2 font-mono">
       <Head>
@@ -11,13 +23,19 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <nav className="flex justify-between w-full border-b border-brown-100 p-4">
+      <nav className="flex justify-between w-full border-b border-primary p-4">
         <div className="flex justify-between items-center h-8 md:h-12 p-2 md:p-4">
-          <img className="w-8 md:w-12 h-8 md:h-12 object-cover mr-4" src="/images/icon-50.png" />
-          <h1 className="font-bold text-2xl md:text-3xl px-6 border-l-2 border-gray-500">
+          <img className="w-8 md:w-12 h-8 md:h-12 object-cover mr-2 md:mr-4" src="/images/icon-50.png" />
+          <h1 className="font-bold text-primary text-2xl md:text-3xl px-2 md:px-6 border-l-2 border-dashed border-primary">
             Tiket
           </h1>
         </div>
+        <button
+          className="p-2 md:p-4 text-primary text-xs sm:text-md border-primary border-2 hover:text-white hover:bg-primary tracking-wider rounded-full"
+          onClick={() => handleShowModal()}
+        >
+          Create Tickets
+        </button>
       </nav>
 
       <main className="flex flex-col items-center w-full flex-1 sm:px-12 xl:px-24 sm:py-6 text-center">
@@ -28,6 +46,8 @@ export default function Home() {
             ))}
           </div>
         </div>
+
+        {showModal && <Modal handleClose={handleCloseModal} />}
       </main>
 
       <footer className="flex items-center justify-center w-full h-8 md:h-16 border-t">
@@ -38,7 +58,7 @@ export default function Home() {
           rel="noopener noreferrer"
         >
           Built by{' '}
-          <span className="font-bold ml-2 hover:text-[#533635]">Kharioki</span>
+          <span className="font-bold ml-2 hover:text-primary">Kharioki</span>
         </a>
       </footer>
     </div>

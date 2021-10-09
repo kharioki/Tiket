@@ -4,6 +4,7 @@ import Header from '../components/Header';
 
 function MyApp({ Component, pageProps }) {
   const [showCart, setShowCart] = useState(false);
+  const [balance, setBalance] = useState(null);
 
   const handleShowCart = () => {
     setShowCart(true);
@@ -16,7 +17,7 @@ function MyApp({ Component, pageProps }) {
   const allProps = { ...pageProps, showCart, handleShowCart, handleCloseCart };
   return (
     <div>
-      <Header handleShowCart={handleShowCart} />
+      <Header handleShowCart={handleShowCart} balance={balance} />
       <Component {...allProps} />
     </div>
   )

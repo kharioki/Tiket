@@ -30,7 +30,7 @@ export function EventCard({ ticket }) {
       <div className="m-4 border-t-2 border-b-2 border-primary h-16 flex justify-center items-center">
         <div className="flex-1 p-2 justify-center items-center">
           <Link href={`/ticket/${ticket.id}`}>
-            <button className="p-2 hover:text-white hover:bg-primary tracking-wider">Add Event Swag</button>
+            <button className="p-2 hover:text-white hover:bg-primary tracking-wider">View Ticket Details &rarr;</button>
           </Link>
         </div>
       </div>

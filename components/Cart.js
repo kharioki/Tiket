@@ -1,3 +1,5 @@
+import { ConnectButton } from './ConnectButton';
+
 export function Cart({ handleCloseCart }) {
   return (
     <div className="fixed inset-0 overflow-hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
@@ -19,17 +21,16 @@ export function Cart({ handleCloseCart }) {
             </div>
 
             <div className="h-full flex flex-col py-6 bg-white shadow-xl overflow-y-scroll">
-              <div className="px-4 sm:px-6">
+              <div className="px-4 sm:px-6 border-b-2 border-gray-100">
                 <h2 className="text-lg font-medium text-gray-900" id="slide-over-title">
                   My Tickets
                 </h2>
               </div>
               <div className="mt-6 relative flex-1 px-4 sm:px-6">
-                {/* Replace with your content */}
                 <div className="absolute inset-0 px-4 sm:px-6">
+                  <ConnectButton />
                   <div className="h-full border-2 border-dashed border-gray-200" aria-hidden="true"></div>
                 </div>
-                {/* /End replace */}
               </div>
             </div>
           </div>

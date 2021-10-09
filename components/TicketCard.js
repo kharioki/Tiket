@@ -3,7 +3,7 @@ import { tickets, swagItems } from '../utils/tickets';
 import { SwagCard } from './SwagCard';
 
 export function TicketCard({ id, showModal }) {
-  const ticket = tickets[2];
+  const ticket = tickets[1];
   const items = swagItems.filter(item => item.ticket === ticket.id);
   return (
     <div className="bg-secondary rounded-md shadow-lg m-2 md:m-10 flex flex-row flex-wrap justify-between w-full lg:w-2/3 h-2/3 xl:h-2/3 justify-items-center">
@@ -24,10 +24,10 @@ export function TicketCard({ id, showModal }) {
           <p className="text-sm text-gray-500">{ticket.venue}</p>
           <p className="text-sm text-yellow-900">{format(new Date(ticket.date), 'EEE, MMM dd')}, {ticket.time}</p>
         </div>
-        <div className="mt-4 py-2 border-b-2 border-yellow-900">
-          <h1 className="text-3xl text-yellow-900 font-bold">${ticket.price}</h1>
+        <div className="mt-4 py-2 border-b border-yellow-900">
+          <h1 className="text-3xl text-yellow-900 font-bold">{ticket.price} cUSD</h1>
         </div>
-        <div className="my-3 py-4 border-b-2 border-yellow-900">
+        <div className="my-3 py-4 border-b border-yellow-900">
           <span className="text-sm text-gray-500">{ticket.description}</span>
         </div>
 

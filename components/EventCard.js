@@ -24,7 +24,7 @@ export function EventCard({ ticket }) {
           <button className="p-2 hover:text-white hover:bg-primary tracking-wider">Buy ticket</button>
         </div>
         <div className="flex-3 ml-2 p-4 justify-center items-center">
-          <p className="oldstyle-nums">${ticket.price}</p>
+          <p className="oldstyle-nums">{ticket.price} cUSD</p>
         </div>
       </div>
       <div className="m-4 border-t-2 border-b-2 border-primary h-16 flex justify-center items-center">

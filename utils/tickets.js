@@ -39,3 +39,34 @@ export const tickets = [
     sold: 0,
   },
 ];
+
+export const swagItems = [
+  {
+    id: 1,
+    name: 'Swag 1',
+    price: 100,
+    image: 'https://images.pexels.com/photos/5872350/pexels-photo-5872350.jpeg',
+    ticket: 3,
+  },
+  {
+    id: 2,
+    name: 'Swag 2',
+    price: 200,
+    image: 'https://images.pexels.com/photos/5632357/pexels-photo-5632357.jpeg',
+    ticket: 3,
+  },
+  {
+    id: 3,
+    name: 'Swag 3',
+    price: 300,
+    image: 'https://images.pexels.com/photos/5632356/pexels-photo-5632356.jpeg',
+    ticket: 3,
+  },
+  {
+    id: 4,
+    name: 'Swag 4',
+    price: 400,
+    image: 'https://images.pexels.com/photos/5632356/pexels-photo-5632356.jpeg',
+    ticket: 2,
+  },
+];

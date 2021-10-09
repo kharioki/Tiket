@@ -1,8 +1,10 @@
 import { format } from 'date-fns';
-import { tickets } from '../utils/tickets';
+import { tickets, swagItems } from '../utils/tickets';
+import { SwagCard } from './SwagCard';
 
 export function TicketCard({ id, showModal }) {
-  const ticket = tickets[1];
+  const ticket = tickets[2];
+  const items = swagItems.filter(item => item.ticket === ticket.id);
   return (
     <div className="bg-secondary rounded-md shadow-lg m-2 md:m-10 flex flex-row flex-wrap justify-between w-full lg:w-2/3 h-2/3 xl:h-2/3 justify-items-center">
       <div className="flex-1 py-6 px-6 bg-gradient-to-b sm:bg-gradient-to-r from-primary via-primary rounded-md md:w-1/2">
@@ -29,8 +31,12 @@ export function TicketCard({ id, showModal }) {
           <span className="text-sm text-gray-500">{ticket.description}</span>
         </div>
 
-        <div className="flex justify-between items-center">
-          <p>Merch / Swag</p>
+        <div className="block w-full items-center">
+          <p>Merch / Swag Items</p>
+
+          <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-2 xl:gap-x-8">
+            {items.map(item => <SwagCard key={item.id} item={item} />)}
+          </div>
         </div>
       </div>
     </div>

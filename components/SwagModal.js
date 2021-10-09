@@ -1,16 +1,13 @@
 import useForm from '../utils/useForm';
 
-export function Modal({ handleClose }) {
+export function SwagModal({ handleClose }) {
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     image: '',
     name: '',
-    details: '',
-    date: '',
-    venue: '',
-    time: '',
     price: 0,
   });
 
+  console.log(inputs);
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true" >
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -23,7 +20,7 @@ export function Modal({ handleClose }) {
             <div className="mt-3 ml-2 text-center sm:mt-0 sm:ml-4 sm:text-left">
               <div className="flex flex-row items-center justify-between w-full border-b-2">
                 <h3 className="text-md leading-6 font-medium text-gray-900" id="modal-title">
-                  Create Event Tickets
+                  Create event items for sale
                 </h3>
                 <button
                   type="button"
@@ -38,7 +35,7 @@ export function Modal({ handleClose }) {
               </div>
               <div className="mt-0">
                 <p className="text-sm text-primary italic">
-                  Add Event ticket information.
+                  Add Event Swag or Merch.
                 </p>
               </div>
               <div className="mt-2 sm:mt-0">
@@ -47,58 +44,18 @@ export function Modal({ handleClose }) {
                   <input
                     className="formInput"
                     id="name"
-                    name="name"
                     type="text"
-                    placeholder="Event Name"
+                    name="name"
+                    placeholder="Name"
                     value={inputs.name}
                     onChange={handleChange}
                   />
-
-                  <label htmlFor="details" className="formLabel">Event Details</label>
-                  <textarea
-                    className="formInput"
-                    id="details"
-                    name="details"
-                    rows="2"
-                    placeholder="Enter event details"
-                    value={inputs.details}
-                    onChange={handleChange}
-                  ></textarea>
-
-                  <label htmlFor="date" className="formLabel">Date</label>
-                  <input
-                    className="formInput"
-                    id="date"
-                    name="date"
-                    type="date"
-                    onChange={handleChange}
-                  />
-
-                  <label htmlFor="time" className="formLabel">Time</label>
-                  <input
-                    className="formInput"
-                    id="time"
-                    name="time"
-                    type="time"
-                    onChange={handleChange}
-                  />
-
-                  <label htmlFor="venue" className="formLabel">Venue</label>
-                  <input
-                    className="formInput"
-                    id="venue"
-                    name="venue"
-                    type="text"
-                    value={inputs.venue}
-                    onChange={handleChange}
-                  />
-
-                  <label htmlFor="price" className="formLabel">Ticket Price</label>
+                  <label htmlFor="price" className="formLabel">Price</label>
                   <input
                     className="formInput"
                     id="price"
-                    name="price"
                     type="number"
+                    name="price"
                     value={inputs.price}
                     onChange={handleChange}
                   />
@@ -115,10 +72,7 @@ export function Modal({ handleClose }) {
             </div>
           </div>
           <div className="bg-gray-50 px-4 py-3 sm:px-6 flex">
-            <button
-              type="button"
-              className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-primary sm:ml-3 sm:w-auto sm:text-sm"
-            >
+            <button type="button" className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-primary sm:ml-3 sm:w-auto sm:text-sm">
               Create
             </button>
             <button

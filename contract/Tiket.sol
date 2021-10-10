@@ -43,7 +43,7 @@ contract Tiket {
         string time;
         string details;
         string image;
-        string code;
+        uint256 createdAt;
         uint256 price;
         uint256 totalAvailable;
         uint256 ticketsSold;
@@ -63,11 +63,11 @@ contract Tiket {
         string memory _time,
         string memory _details,
         string memory _image,
-        string memory _code,
         uint256 _price,
         uint256 _totalAvailable
     ) public {
         uint256 _ticketsSold = 0;
+        uint256 _createdAt = block.timestamp;
         tickets[ticketsLength] = Ticket(
             payable(msg.sender),
             _name,
@@ -76,7 +76,7 @@ contract Tiket {
             _time,
             _details,
             _image,
-            _code,
+            _createdAt,
             _price,
             _totalAvailable,
             _ticketsSold
@@ -84,8 +84,9 @@ contract Tiket {
         ticketsLength++;
     }
 
-    /** @dev function called when getting a single ticket information
-     *  @return Ticket object
+    /**
+     * @dev function called when getting a single ticket information
+     * @return Ticket object
      */
     function getTicket(uint256 _index)
         public
@@ -98,7 +99,7 @@ contract Tiket {
             string memory,
             string memory,
             string memory,
-            string memory,
+            uint256,
             uint256,
             uint256,
             uint256
@@ -113,7 +114,7 @@ contract Tiket {
             ticket.time,
             ticket.details,
             ticket.image,
-            ticket.code,
+            ticket.createdAt,
             ticket.price,
             ticket.totalAvailable,
             ticket.ticketsSold

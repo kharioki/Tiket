@@ -3,11 +3,14 @@ import Web3 from 'web3';
 import { newKitFromWeb3 } from '@celo/contractkit';
 import BigNumber from 'bignumber.js';
 
+import tiketAbi from '../contract/tiket.abi.json';
+
 import '../styles/styles.css';
 import Header from '../components/Header';
 
 const ERC20_DECIMALS = 18;
 const cUSDContractAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1"
+const TiketContractAddress = "0xe01D50Bb2aaaF46CC4776D0094c0EC2C2ACC0097"
 
 function MyApp({ Component, pageProps }) {
   const [showCart, setShowCart] = useState(false);
@@ -30,12 +33,13 @@ function MyApp({ Component, pageProps }) {
         kit.defaultAccount = address;
         await setAccountAddress(accounts[0]);
 
-        console.log(kit);
-        console.log(accountAddress);
+        const _contract = new kit.web3.eth.Contract(tiketAbi, TiketContractAddress);
+        await setContract(_contract);
+        console.log(contract);
+
       } catch (error) {
         console.error(error);
       }
-
     } else {
       alert('Please install the Celo Chrome Extension');
     }
@@ -45,6 +49,8 @@ function MyApp({ Component, pageProps }) {
     const totalBalance = await kit.getTotalBalance(kit.defaultAccount);
     const cUSDBalance = totalBalance.cUSD.shiftedBy(-ERC20_DECIMALS).toFixed(2);
     setBalance(cUSDBalance);
+
+
   }
 
   const handleShowCart = () => {

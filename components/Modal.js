@@ -1,7 +1,8 @@
+import React, { useState } from 'react';
 import useForm from '../utils/useForm';
 
 export function Modal({ handleClose }) {
-  const { inputs, handleChange, clearForm, resetForm } = useForm({
+  const { inputs, handleChange, clearForm } = useForm({
     image: '',
     name: '',
     details: '',
@@ -9,7 +10,14 @@ export function Modal({ handleClose }) {
     venue: '',
     time: '',
     price: 0,
+    totalAvailable: ''
   });
+
+  const handleSubmit = () => {
+    // submit form
+  }
+
+  console.log(inputs);
 
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true" >
@@ -102,12 +110,23 @@ export function Modal({ handleClose }) {
                     value={inputs.price}
                     onChange={handleChange}
                   />
-                  <label htmlFor="image" className="formLabel">Image</label>
+
+                  <label htmlFor="image" className="formLabel">Image Url</label>
                   <input
                     className="formInput"
                     id="image"
                     name="image"
-                    type="file"
+                    type="text"
+                    onChange={handleChange}
+                  />
+
+                  <label htmlFor="totalAvailable" className="formLabel">Total Tickets available</label>
+                  <input
+                    className="formInput"
+                    id="totalAvailable"
+                    name="totalAvailable"
+                    type="number"
+                    value={inputs.totalAvailable}
                     onChange={handleChange}
                   />
                 </form>
@@ -118,6 +137,7 @@ export function Modal({ handleClose }) {
             <button
               type="button"
               className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-xs font-medium text-white hover:bg-primary sm:ml-3 sm:w-auto sm:text-sm"
+              onClick={() => handleSubmit()}
             >
               Create
             </button>

@@ -5,6 +5,7 @@ export function SwagModal({ handleClose }) {
     image: '',
     name: '',
     price: 0,
+    totalItemsAvailable: ''
   });
 
   return (
@@ -58,12 +59,21 @@ export function SwagModal({ handleClose }) {
                     value={inputs.price}
                     onChange={handleChange}
                   />
-                  <label htmlFor="image" className="formLabel">Image</label>
+                  <label htmlFor="image" className="formLabel">Image Url</label>
                   <input
                     className="formInput"
                     id="image"
                     name="image"
-                    type="file"
+                    type="text"
+                    onChange={handleChange}
+                  />
+                  <label htmlFor="totalItemsAvailable" className="formLabel">Number of items available</label>
+                  <input
+                    className="formInput"
+                    id="totalItemsAvailable"
+                    type="number"
+                    name="totalItemsAvailable"
+                    value={inputs.totalItemsAvailable}
                     onChange={handleChange}
                   />
                 </form>

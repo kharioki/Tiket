@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 import { ERC20_DECIMALS } from '../utils/methods';
 import { SwagCard } from './SwagCard';
 
-export function TicketCard({ ticket, address, showModal, items }) {
+export function TicketCard({ ticket, address, showModal, items, purchaseItem }) {
 
   if (!ticket) {
     return <div className="font-bold">Loading...</div>;
@@ -41,7 +41,7 @@ export function TicketCard({ ticket, address, showModal, items }) {
           <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-2 xl:gap-x-8">
             {items.length ? (
               items.map((item, index) => (
-                <SwagCard key={index} item={item} />
+                <SwagCard key={index} index={index} item={item} buyItem={purchaseItem} />
               ))
             ) : (
               <div className="text-center">No items added yet</div>

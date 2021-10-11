@@ -4,7 +4,7 @@ A decentralized application for ticketing that uses Celo blockchain technology t
 
 ## Demo
 
-[Tiket]()
+[Tiket](https://tiket.vercel.app/)
 
 ## Features
 

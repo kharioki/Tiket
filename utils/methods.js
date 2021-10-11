@@ -192,6 +192,46 @@ export const getPurchasedTicketItems = async (contract, address) => {
   return await Promise.all(_purchasedTicketItems);
 }
 
+const createPurchasedTicketItem = async (contract, id, kit) => {
+  const params = [
+    id,
+  ];
+
+  try {
+    const res = await contract.methods
+      .createPurchasedTicketItem(...params)
+      .send({
+        from: kit.defaultAccount,
+      });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export const buyTicketItem = async (contract, index, price, id, kit, approve) => {
+  // first approve the contract to spend
+  try {
+    await approve(price);
+  } catch (error) {
+    console.error(error);
+  }
+  // then buy the ticket
+  try {
+    const result = await contract.methods
+      .buyTicketItem(id, index)
+      .send({ from: kit.defaultAccount });
+  } catch (error) {
+    console.error(error);
+  }
+
+  // then create the purchased ticket
+  try {
+    await createPurchasedTicketItem(contract, id, kit);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 
 export const getCartTickets = async (contract, cart) => {
   const cartTickets = [];

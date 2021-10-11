@@ -5,10 +5,10 @@ import { useRouter } from 'next/router'
 import { TicketCard } from "../../components/TicketCard";
 import { Cart } from '../../components/Cart';
 import { SwagModal } from '../../components/SwagModal';
-import { getTicket, getTicketItems, createTicketItem } from '../../utils/methods';
+import { getTicket, getTicketItems, createTicketItem, buyTicketItem } from '../../utils/methods';
 
 export default function TicketPage(props) {
-  const { showCart, handleCloseCart, contract, accountAddress, kit } = props;
+  const { showCart, handleCloseCart, contract, accountAddress, kit, approve } = props;
   const [showModal, setShowModal] = useState(false);
   const [ticket, setTicket] = useState(null);
   const [items, setItems] = useState([]);
@@ -37,6 +37,11 @@ export default function TicketPage(props) {
     // refetch ticket items
     getAllTicketItems();
     setShowModal(false);
+  }
+
+  // buy ticket item
+  const purchaseItem = (index, price, id) => {
+    buyTicketItem(contract, index, price, id, kit, approve)
   }
 
   const handleShowModal = () => {
@@ -72,7 +77,7 @@ export default function TicketPage(props) {
             Tip: if you'd like to sell some promotional items, swag or merch in your event, you can add that too.
           </p>
         </div>
-        <TicketCard ticket={ticket} address={accountAddress} showModal={handleShowModal} items={items} />
+        <TicketCard ticket={ticket} address={accountAddress} showModal={handleShowModal} items={items} purchaseItem={purchaseItem} />
         {showCart && <Cart handleCloseCart={handleCloseCart} />}
         {showModal && <SwagModal handleClose={handleCloseModal} createTicketItem={addTicketItem} />}
       </div>

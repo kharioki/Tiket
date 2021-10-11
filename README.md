@@ -1,35 +1,51 @@
 # Tiket
 
-A decentralized application for ticketing.
+A decentralized application for ticketing that uses Celo blockchain technology to handle all the transactions.
+
+## Demo
+
+[Tiket]()
+
+## Features
+
+The application allows users to create event tickets and sell them. If the user wants to sell other ticket items (e.g. promotional items, swag or merch) on the same event, he can create ticket items. Any user can buy a ticket or ticket item.
+
+## Coming soon
+
+- ability to resell and transfer tickets bought
+- ability to buy tickets for other users
+- ability to buy ticket items for other users
+- ability to validate tickets
 
 ---
 
-# Next.js + Tailwind CSS Example
+## Requirements
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v2.2)](https://blog.tailwindcss.com/tailwindcss-2-2) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+- Install the CeloExtensionWallet from the Chrome Web Store
+- Create a wallet
+- Get some test tokens at [alfajores](https://celo.org/developers/faucet)
+- Remember to use the alfajores testnet in the CeloExtensionWallet
 
-It uses the new [`Just-in-Time Mode`](https://tailwindcss.com/docs/just-in-time-mode) for Tailwind CSS.
+## Next.js
 
-## Preview
+This project was built with Next.js for the frontend.
 
-Preview the example live on [StackBlitz](http://stackblitz.com/):
+## How to run
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
-
-## Deploy your own
-
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+first install the dependencies
 
 ```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-# or
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
+    npm install
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+then run the server
+
+```bash
+    npm run dev
+```
+
+build
+
+```bash
+    npm run build
+```

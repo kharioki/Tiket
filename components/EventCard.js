@@ -1,7 +1,10 @@
-import Link from 'next/link';
+import { useRouter } from 'next/router'
 import { format } from 'date-fns';
+import { ERC20_DECIMALS } from '../utils/methods';
 
-export function EventCard({ ticket }) {
+export function EventCard({ index, ticket }) {
+  const router = useRouter()
+
   return (
     <div className="bg-secondary rounded-md shadow-lg relative">
       <div className="py-6 px-12 bg-gradient-to-b from-primary via-primary rounded-t-md">
@@ -17,21 +20,29 @@ export function EventCard({ ticket }) {
         <span className="text-primary text-lg font bold">{ticket.name}</span>
       </div>
       <div className="m-2">
-        <span className="text-gray-600 text-sm truncate overflow-ellipsis">{ticket.description}</span>
+        <p className="text-gray-600 text-sm truncate overflow-hidden">{ticket.details}</p>
       </div>
       <div className="m-4 border-t-2 border-b-2 border-primary h-16 flex flex-row">
         <div className="flex-1 border-r-2 border-primary p-2 justify-center items-center">
           <button className="p-2 hover:text-white hover:bg-primary tracking-wider">Buy ticket</button>
         </div>
         <div className="flex-3 ml-2 p-4 justify-center items-center">
-          <p className="oldstyle-nums">{ticket.price} cUSD</p>
+          <p className="oldstyle-nums">{ticket.price.shiftedBy(-ERC20_DECIMALS).toFixed(2)} cUSD</p>
         </div>
       </div>
       <div className="m-4 border-t-2 border-b-2 border-primary h-16 flex justify-center items-center">
         <div className="flex-1 p-2 justify-center items-center">
-          <Link href={`/ticket/${ticket.id}`}>
-            <button className="p-2 hover:text-white hover:bg-primary tracking-wider">View Ticket Details &rarr;</button>
-          </Link>
+          <button
+            className="p-2 hover:text-white hover:bg-primary tracking-wider"
+            onClick={() => {
+              router.push({
+                pathname: `/ticket/${index}`,
+                query: { id: index },
+              })
+            }}
+          >
+            View Ticket Details &rarr;
+          </button>
         </div>
       </div>
     </div>

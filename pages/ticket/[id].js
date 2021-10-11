@@ -1,13 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router'
 
 import { TicketCard } from "../../components/TicketCard";
 import { Cart } from '../../components/Cart';
 import { SwagModal } from '../../components/SwagModal';
+import { getTicket, getTicketItems, createTicketItem } from '../../utils/methods';
 
 export default function TicketPage(props) {
-  const { showCart, handleCloseCart } = props;
+  const { showCart, handleCloseCart, contract, accountAddress, kit } = props;
   const [showModal, setShowModal] = useState(false);
+  const [ticket, setTicket] = useState(null);
+  const [items, setItems] = useState([]);
+
+  const router = useRouter();
+  const { id } = router.query
+  const index = parseInt(id)
+
+  const getTicketDetails = () => {
+    let _ticket = getTicket(contract, index);
+    _ticket.then(res => {
+      setTicket(res);
+    });
+  }
+
+  const getAllTicketItems = () => {
+    let _ticketItems = getTicketItems(contract, id);
+    _ticketItems.then(res => {
+      setItems(res);
+    });
+  }
+
+  // create a new ticket item
+  const addTicketItem = (item) => {
+    createTicketItem(contract, item, kit, id);
+    // refetch ticket items
+    getAllTicketItems();
+    setShowModal(false);
+  }
 
   const handleShowModal = () => {
     setShowModal(true);
@@ -16,6 +46,13 @@ export default function TicketPage(props) {
   const handleCloseModal = () => {
     setShowModal(false);
   };
+
+  useEffect(() => {
+    if (contract) {
+      getTicketDetails();
+      getAllTicketItems();
+    }
+  }, [contract]);
 
   return (
     <div>
@@ -35,9 +72,9 @@ export default function TicketPage(props) {
             Tip: if you'd like to sell some promotional items, swag or merch in your event, you can add that too.
           </p>
         </div>
-        <TicketCard id={1} showModal={handleShowModal} />
+        <TicketCard ticket={ticket} address={accountAddress} showModal={handleShowModal} items={items} />
         {showCart && <Cart handleCloseCart={handleCloseCart} />}
-        {showModal && <SwagModal handleClose={handleCloseModal} />}
+        {showModal && <SwagModal handleClose={handleCloseModal} createTicketItem={addTicketItem} />}
       </div>
     </div>
   );

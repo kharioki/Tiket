@@ -1,12 +1,17 @@
 import useForm from '../utils/useForm';
 
-export function SwagModal({ handleClose }) {
-  const { inputs, handleChange, clearForm, resetForm } = useForm({
+export function SwagModal({ handleClose, createTicketItem }) {
+  const { inputs, handleChange, clearForm } = useForm({
     image: '',
     name: '',
     price: 0,
-    totalItemsAvailable: ''
+    totalItemsAvailable: 0
   });
+
+  const handleSubmit = () => {
+    createTicketItem(inputs);
+    clearForm();
+  };
 
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true" >
@@ -81,7 +86,11 @@ export function SwagModal({ handleClose }) {
             </div>
           </div>
           <div className="bg-gray-50 px-4 py-3 sm:px-6 flex">
-            <button type="button" className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-primary sm:ml-3 sm:w-auto sm:text-sm">
+            <button
+              type="button"
+              className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-primary sm:ml-3 sm:w-auto sm:text-sm"
+              onClick={() => handleSubmit()}
+            >
               Create
             </button>
             <button

@@ -7,38 +7,33 @@ import { Modal } from '../components/Modal';
 import { Banner } from '../components/Banner';
 import { Cart } from '../components/Cart';
 import { Footer } from '../components/Footer';
+import { getAllTickets, createNewTicket } from '../utils/methods';
 
 export default function HomePage(props) {
+  const { showCart, handleCloseCart, contract, kit } = props;
   const [showModal, setShowModal] = useState(false);
-  const { showCart, handleCloseCart, contract } = props;
-  let allTickets = [];
-  const getTickets = async () => {
-    const _ticketsLength = await contract.methods.getTicketsLength().call();
-    const _tickets = [];
-    for (let i = 0; i < _ticketsLength; i++) {
-      let _ticket = new Promise(async (resolve, reject) => {
-        const t = await contract.methods.getTicket(i).call();
-        resolve({
-          index: i,
-          owner: t[0],
-          name: t[1],
-          date: t[2],
-          venue: t[3],
-          time: t[4],
-          details: t[5],
-          image: t[6],
-          createdAt: t[7],
-          price: t[8],
-          totalAvailable: t[9],
-          ticketsSold: t[10],
-        });
-      });
-      _tickets.push(_ticket);
-    }
-    allTickets = await Promise.all(_tickets);
+  const [ticketsList, setTicketsList] = useState([]);
+
+
+
+  // fetch all tickets
+  const getTickets = () => {
+    let allTickets = getAllTickets(contract);
+    allTickets.then(tickets => {
+      setTicketsList(tickets);
+    });
   }
 
-  console.log(allTickets);
+  console.log(ticketsList);
+
+  // create a ticket
+  const createTicket = (ticket) => {
+    createNewTicket(contract, ticket, kit);
+    // refetch tickets
+    getAllTickets(contract);
+    // close modal
+    setShowModal(false);
+  }
 
   const handleShowModal = () => {
     setShowModal(true);
@@ -65,13 +60,13 @@ export default function HomePage(props) {
         <Banner handleShowModal={handleShowModal} />
         <div className="w-full mb-2 md:px-4 lg:px-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-4">
-            {tickets.map((ticket, index) => (
-              <EventCard key={index} ticket={ticket} />
+            {ticketsList.map((ticket, index) => (
+              <EventCard key={index} index={index} ticket={ticket} />
             ))}
           </div>
         </div>
         {showCart && <Cart handleCloseCart={handleCloseCart} />}
-        {showModal && <Modal handleClose={handleCloseModal} />}
+        {showModal && <Modal handleClose={handleCloseModal} createTicket={createTicket} />}
       </main>
       <Footer />
     </div>

@@ -4,6 +4,7 @@ import { newKitFromWeb3 } from '@celo/contractkit';
 import BigNumber from 'bignumber.js';
 
 import tiketAbi from '../contract/tiket.abi.json';
+import erc20Abi from '../contract/erc20.abi.json';
 
 import '../styles/styles.css';
 import Header from '../components/Header';
@@ -53,6 +54,16 @@ function MyApp({ Component, pageProps }) {
 
   }
 
+  const approve = async (price) => {
+    const cUSDContract = new kit.web3.eth.Contract(erc20Abi, cUSDContractAddress);
+
+    const result = await cUSDContract.methods
+      .approve(TiketContractAddress, price)
+      .send({ from: kit.defaultAccount });
+
+    return result;
+  }
+
   const handleShowCart = () => {
     setShowCart(true);
   };
@@ -72,7 +83,17 @@ function MyApp({ Component, pageProps }) {
     }
   }, [kit, accountAddress]);
 
-  const allProps = { ...pageProps, showCart, handleShowCart, handleCloseCart, contract, accountAddress, balance };
+  const allProps = {
+    ...pageProps,
+    showCart,
+    handleShowCart,
+    handleCloseCart,
+    contract,
+    kit,
+    accountAddress,
+    balance,
+    approve
+  };
   return (
     <div>
       <Header handleShowCart={handleShowCart} balance={balance} connectWallet={connectCeloWallet} />

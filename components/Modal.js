@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useForm from '../utils/useForm';
 
-export function Modal({ handleClose }) {
+export function Modal({ handleClose, createTicket }) {
   const { inputs, handleChange, clearForm } = useForm({
     image: '',
     name: '',
@@ -10,14 +10,14 @@ export function Modal({ handleClose }) {
     venue: '',
     time: '',
     price: 0,
-    totalAvailable: ''
+    totalAvailable: 0
   });
 
   const handleSubmit = () => {
     // submit form
+    createTicket(inputs);
+    clearForm();
   }
-
-  console.log(inputs);
 
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true" >

@@ -1,3 +1,5 @@
+import { ERC20_DECIMALS } from '../utils/methods';
+
 export function SwagCard({ item }) {
   return (
     <div className="relative">
@@ -11,7 +13,7 @@ export function SwagCard({ item }) {
       <div className="mt-4 flex justify-between">
         <div>
           <h3 className="text-sm text-gray-500">{item.name}</h3>
-          <p className="mt-1 text-sm font-bold text-gray-900">{item.price} cUSD</p>
+          <p className="mt-1 text-sm font-bold text-gray-900">{item.price.shiftedBy(-ERC20_DECIMALS).toFixed(2)} cUSD</p>
         </div>
         <button className="text-primary border-2 border-primary p-2 rounded-md mb-2 hover:bg-primary text-xs sm:text:sm">
           <p className="text-sm text-primary hover:text-white">Buy</p>

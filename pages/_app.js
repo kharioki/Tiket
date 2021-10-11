@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }) {
         const address = accounts[0];
 
         kit.defaultAccount = address;
-        await setAccountAddress(accounts[0]);
+        await setAccountAddress(address);
 
         const _contract = new kit.web3.eth.Contract(tiketAbi, TiketContractAddress);
         await setContract(_contract);
@@ -72,10 +72,10 @@ function MyApp({ Component, pageProps }) {
     }
   }, [kit, accountAddress]);
 
-  const allProps = { ...pageProps, showCart, handleShowCart, handleCloseCart };
+  const allProps = { ...pageProps, showCart, handleShowCart, handleCloseCart, contract, accountAddress, balance };
   return (
     <div>
-      <Header handleShowCart={handleShowCart} balance={balance} />
+      <Header handleShowCart={handleShowCart} balance={balance} connectWallet={connectCeloWallet} />
       <Component {...allProps} />
     </div>
   )

@@ -154,3 +154,84 @@ export const buyTicket = async (contract, index, price, id, kit, approve) => {
     console.error(error);
   }
 }
+
+export const getPurchasedTickets = async (contract, address) => {
+  const _purchasedTicketsLength = await contract.methods.getUserTicketsLength(address).call();
+  const _purchasedTickets = [];
+
+  for (let i = 0; i < _purchasedTicketsLength; i++) {
+    let _purchasedTicket = new Promise(async (resolve, reject) => {
+      const t = await contract.methods.getPurchasedTicket(address, i).call();
+      resolve({
+        index: i,
+        ticketId: t[0],
+        boughtOn: t[1],
+        isValid: t[2]
+      });
+    });
+    _purchasedTickets.push(_purchasedTicket);
+  }
+  return await Promise.all(_purchasedTickets);
+}
+
+export const getPurchasedTicketItems = async (contract, address) => {
+  const _purchasedTicketItemsLength = await contract.methods.getUserTicketItemsLength(address).call();
+  const _purchasedTicketItems = [];
+
+  for (let i = 0; i < _purchasedTicketItemsLength; i++) {
+    let _purchasedTicketItem = new Promise(async (resolve, reject) => {
+      const t = await contract.methods.getPurchasedTicketItem(address, i).call();
+      resolve({
+        index: i,
+        ticketItemId: t[0],
+        boughtOn: t[1]
+      });
+    });
+    _purchasedTicketItems.push(_purchasedTicketItem);
+  }
+  return await Promise.all(_purchasedTicketItems);
+}
+
+
+export const getCartTickets = async (contract, cart) => {
+  const cartTickets = [];
+  for (let i = 0; i < cart.length; i++) {
+    let index = parseInt(cart[i].ticketId);
+    console.log(index);
+    let _ticket = await getTicket(contract, index);
+    cartTickets.push(_ticket);
+  }
+  return cartTickets;
+}
+
+//TODO: GET TICKET ITEM
+// const getTicketItem = async (contract, index) => {
+//   const _ticketItem = new Promise(async (resolve, reject) => {
+//     const t = await contract.methods.getTicketItem(index).call();
+//     resolve({
+//       index: index,
+//       owner: t[0],
+//       ticketId: t[1],
+//       name: t[2],
+//       image: t[3],
+//       price: new BigNumber(t[4]),
+//       totalItemsAvailable: t[5],
+//       itemsSold: t[6],
+//     });
+//   });
+//   return await _ticketItem;
+// }
+
+//TODO: GET PURCHASED TICKET ITEM
+// export const getCartTicketItems = async (contract, cartItems) =>  {
+//   const cartTicketItems = [];
+//   for (let i = 0; i < cartItems.length; i++) {
+//     let index = parseInt(cartItems[i].ticketItemId);
+//     console.log(index);
+//     let _ticket =  await getTicket(contract, index);
+//     cartTicketItems.push(_ticket);
+//   }
+//   return cartTicketItems;
+// }
+
+

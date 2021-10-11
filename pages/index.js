@@ -9,7 +9,7 @@ import { Footer } from '../components/Footer';
 import { getAllTickets, createNewTicket, buyTicket } from '../utils/methods';
 
 export default function HomePage(props) {
-  const { showCart, handleCloseCart, contract, kit, approve } = props;
+  const { showCart, handleCloseCart, contract, kit, approve, cart } = props;
   const [showModal, setShowModal] = useState(false);
   const [ticketsList, setTicketsList] = useState([]);
 
@@ -20,8 +20,6 @@ export default function HomePage(props) {
       setTicketsList(tickets);
     });
   }
-
-  console.log(ticketsList);
 
   // create a ticket
   const createTicket = (ticket) => {
@@ -69,7 +67,7 @@ export default function HomePage(props) {
             ))}
           </div>
         </div>
-        {showCart && <Cart handleCloseCart={handleCloseCart} />}
+        {showCart && <Cart handleCloseCart={handleCloseCart} cart={cart} contract={contract} />}
         {showModal && <Modal handleClose={handleCloseModal} createTicket={createTicket} />}
       </main>
       <Footer />

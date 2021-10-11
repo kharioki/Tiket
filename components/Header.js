@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import { ConnectButton } from './ConnectButton';
 
-export default function Header({ handleShowCart, balance }) {
+export default function Header({ handleShowCart, balance, connectWallet, cart, cartItems }) {
+  const total = cart.length + cartItems.length;
+
   return (
     <nav className="flex justify-between items-center w-full border-b border-primary py-2 px-4">
       <Link href="/">
@@ -13,7 +15,7 @@ export default function Header({ handleShowCart, balance }) {
         </div>
       </Link>
       <div className="flex flex-row items-center justify-center">
-        {!balance ? <ConnectButton /> : (
+        {!balance ? <ConnectButton connectWallet={connectWallet} /> : (
           <h1 className="p-2 text-primary text-xs sm:text-lg rounded-md font-bold">
             {balance}cUSD
           </h1>
@@ -25,7 +27,7 @@ export default function Header({ handleShowCart, balance }) {
           <span
             className="absolute top-0 right-0 px-2 py-1 text-xs font-bold leading-none text-white transform bg-primary rounded-full"
           >
-            9
+            {total}
           </span>
         </button>
       </div>

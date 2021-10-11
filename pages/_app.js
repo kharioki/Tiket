@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import { newKitFromWeb3 } from '@celo/contractkit';
-import BigNumber from 'bignumber.js';
 
 import tiketAbi from '../contract/tiket.abi.json';
 import erc20Abi from '../contract/erc20.abi.json';
+
+import { getPurchasedTickets, getPurchasedTicketItems } from '../utils/methods';
 
 import '../styles/styles.css';
 import Header from '../components/Header';
@@ -19,6 +20,8 @@ function MyApp({ Component, pageProps }) {
   const [kit, setKit] = useState(null);
   const [contract, setContract] = useState(null);
   const [accountAddress, setAccountAddress] = useState(null);
+  const [cart, setCart] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
 
   const connectCeloWallet = async () => {
     if (window.celo) {
@@ -36,7 +39,6 @@ function MyApp({ Component, pageProps }) {
 
         const _contract = new kit.web3.eth.Contract(tiketAbi, TiketContractAddress);
         await setContract(_contract);
-        console.log(contract);
 
       } catch (error) {
         console.error(error);
@@ -50,8 +52,18 @@ function MyApp({ Component, pageProps }) {
     const totalBalance = await kit.getTotalBalance(kit.defaultAccount);
     const cUSDBalance = totalBalance.cUSD.shiftedBy(-ERC20_DECIMALS).toFixed(2);
     setBalance(cUSDBalance);
+  }
 
+  // get user tickets bought
+  const getCart = async () => {
+    let _cart = await getPurchasedTickets(contract, accountAddress);
+    setCart(_cart);
+  }
 
+  // get user tickets items bought
+  const getCartTicketItems = async () => {
+    let _cartItems = await getPurchasedTicketItems(contract, accountAddress);
+    setCartItems(_cartItems);
   }
 
   const approve = async (price) => {
@@ -76,12 +88,18 @@ function MyApp({ Component, pageProps }) {
     connectCeloWallet();
   }, []);
 
-  console.log(balance)
   useEffect(() => {
     if (kit && accountAddress) {
       getBalance();
     }
   }, [kit, accountAddress]);
+
+  useEffect(() => {
+    if (contract && accountAddress) {
+      getCart();
+      getCartTicketItems();
+    }
+  }, [contract, accountAddress, balance]);
 
   const allProps = {
     ...pageProps,
@@ -92,11 +110,18 @@ function MyApp({ Component, pageProps }) {
     kit,
     accountAddress,
     balance,
-    approve
+    approve,
+    cart
   };
   return (
     <div>
-      <Header handleShowCart={handleShowCart} balance={balance} connectWallet={connectCeloWallet} />
+      <Header
+        handleShowCart={handleShowCart}
+        balance={balance}
+        connectWallet={connectCeloWallet}
+        cart={cart}
+        cartItems={cartItems}
+      />
       <Component {...allProps} />
     </div>
   )

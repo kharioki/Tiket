@@ -60,6 +60,7 @@ export function Modal({ handleClose, createTicket }) {
                     placeholder="Event Name"
                     value={inputs.name}
                     onChange={handleChange}
+                    required
                   />
 
                   <label htmlFor="details" className="formLabel">Event Details</label>
@@ -80,6 +81,7 @@ export function Modal({ handleClose, createTicket }) {
                     name="date"
                     type="date"
                     onChange={handleChange}
+                    required
                   />
 
                   <label htmlFor="time" className="formLabel">Time</label>
@@ -99,6 +101,7 @@ export function Modal({ handleClose, createTicket }) {
                     type="text"
                     value={inputs.venue}
                     onChange={handleChange}
+                    required
                   />
 
                   <label htmlFor="price" className="formLabel">Ticket Price</label>
@@ -109,6 +112,7 @@ export function Modal({ handleClose, createTicket }) {
                     type="number"
                     value={inputs.price}
                     onChange={handleChange}
+                    required
                   />
 
                   <label htmlFor="image" className="formLabel">Image Url</label>
@@ -118,6 +122,7 @@ export function Modal({ handleClose, createTicket }) {
                     name="image"
                     type="text"
                     onChange={handleChange}
+                    required
                   />
 
                   <label htmlFor="totalAvailable" className="formLabel">Total Tickets available</label>
@@ -135,7 +140,7 @@ export function Modal({ handleClose, createTicket }) {
           </div>
           <div className="bg-gray-50 px-4 py-3 sm:px-6 flex">
             <button
-              type="button"
+              type="submit"
               className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-xs font-medium text-white hover:bg-primary sm:ml-3 sm:w-auto sm:text-sm"
               onClick={() => handleSubmit()}
             >

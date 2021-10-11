@@ -54,6 +54,7 @@ export function SwagModal({ handleClose, createTicketItem }) {
                     placeholder="Name"
                     value={inputs.name}
                     onChange={handleChange}
+                    required
                   />
                   <label htmlFor="price" className="formLabel">Price</label>
                   <input
@@ -63,6 +64,7 @@ export function SwagModal({ handleClose, createTicketItem }) {
                     name="price"
                     value={inputs.price}
                     onChange={handleChange}
+                    required
                   />
                   <label htmlFor="image" className="formLabel">Image Url</label>
                   <input
@@ -70,7 +72,9 @@ export function SwagModal({ handleClose, createTicketItem }) {
                     id="image"
                     name="image"
                     type="text"
+                    value={inputs.image}
                     onChange={handleChange}
+                    required
                   />
                   <label htmlFor="totalItemsAvailable" className="formLabel">Number of items available</label>
                   <input
@@ -87,7 +91,7 @@ export function SwagModal({ handleClose, createTicketItem }) {
           </div>
           <div className="bg-gray-50 px-4 py-3 sm:px-6 flex">
             <button
-              type="button"
+              type="submit"
               className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-primary sm:ml-3 sm:w-auto sm:text-sm"
               onClick={() => handleSubmit()}
             >

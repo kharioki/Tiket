@@ -12,6 +12,8 @@ export function EventCard({ index, ticket, purchaseTicket }) {
       purchaseTicket(index, ticket.price, id)
   }
 
+  const sold = parseInt(ticket.ticketsSold);
+  const total = parseInt(ticket.totalAvailable);
   return (
     <div className="bg-secondary rounded-md shadow-lg relative">
       <div className="py-6 px-12 bg-gradient-to-b from-primary via-primary rounded-t-md">
@@ -19,6 +21,9 @@ export function EventCard({ index, ticket, purchaseTicket }) {
         <h2 className="absolute transform -rotate-90 left-6 top-24 -translate-x-24 text-white text-3xl font-light">
           {format(new Date(ticket.date), 'EEE,MMM dd')}
         </h2>
+        {sold > 0 && sold < total ? <p className="absolute bg-white text-primary transform rotate-3 -top-3 -right-1">{sold} of {total} sold</p> : null}
+        {sold === total && <p className="absolute bg-white text-primary transform rotate-3 -top-3 -right-1">Sold Out</p>}
+
       </div>
       <div className="mt-8 px-6">
         <span className="text-xs text-gray-500 text-right">{ticket.venue}, {ticket.time}</span>
@@ -26,14 +31,15 @@ export function EventCard({ index, ticket, purchaseTicket }) {
       <div className="m-2">
         <span className="text-primary text-lg font bold">{ticket.name}</span>
       </div>
-      <div className="m-2">
-        <p className="text-gray-600 text-sm truncate overflow-hidden">{ticket.details}</p>
-      </div>
+      {/* <div className="m-2">
+        <p className="text-gray-600 text-sm truncate overflow-">{ticket.details}</p>
+      </div> */}
       <div className="m-4 border-t-2 border-b-2 border-primary h-16 flex flex-row">
         <div className="flex-1 border-r-2 border-primary p-2 justify-center items-center">
           <button
             className="p-2 hover:text-white hover:bg-primary tracking-wider"
             onClick={() => purchase()}
+            disabled={sold === total}
           >
             Buy ticket
           </button>

@@ -197,7 +197,6 @@ export const getCartTickets = async (contract, cart) => {
   const cartTickets = [];
   for (let i = 0; i < cart.length; i++) {
     let index = parseInt(cart[i].ticketId);
-    console.log(index);
     let _ticket = await getTicket(contract, index);
     cartTickets.push(_ticket);
   }

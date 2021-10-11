@@ -2,8 +2,15 @@ import { useRouter } from 'next/router'
 import { format } from 'date-fns';
 import { ERC20_DECIMALS } from '../utils/methods';
 
-export function EventCard({ index, ticket }) {
+export function EventCard({ index, ticket, purchaseTicket }) {
   const router = useRouter()
+
+  const purchase = () => {
+    const id = index.toString();
+    // confirm purchase
+    confirm('Are you sure you want to purchase this ticket?') &&
+      purchaseTicket(index, ticket.price, id)
+  }
 
   return (
     <div className="bg-secondary rounded-md shadow-lg relative">
@@ -24,7 +31,12 @@ export function EventCard({ index, ticket }) {
       </div>
       <div className="m-4 border-t-2 border-b-2 border-primary h-16 flex flex-row">
         <div className="flex-1 border-r-2 border-primary p-2 justify-center items-center">
-          <button className="p-2 hover:text-white hover:bg-primary tracking-wider">Buy ticket</button>
+          <button
+            className="p-2 hover:text-white hover:bg-primary tracking-wider"
+            onClick={() => purchase()}
+          >
+            Buy ticket
+          </button>
         </div>
         <div className="flex-3 ml-2 p-4 justify-center items-center">
           <p className="oldstyle-nums">{ticket.price.shiftedBy(-ERC20_DECIMALS).toFixed(2)} cUSD</p>

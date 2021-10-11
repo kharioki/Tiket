@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 
-import { tickets } from '../utils/tickets';
 import { EventCard } from '../components/EventCard';
 import { Modal } from '../components/Modal';
 import { Banner } from '../components/Banner';
 import { Cart } from '../components/Cart';
 import { Footer } from '../components/Footer';
-import { getAllTickets, createNewTicket } from '../utils/methods';
+import { getAllTickets, createNewTicket, buyTicket } from '../utils/methods';
 
 export default function HomePage(props) {
-  const { showCart, handleCloseCart, contract, kit } = props;
+  const { showCart, handleCloseCart, contract, kit, approve } = props;
   const [showModal, setShowModal] = useState(false);
   const [ticketsList, setTicketsList] = useState([]);
-
-
 
   // fetch all tickets
   const getTickets = () => {
@@ -30,9 +27,16 @@ export default function HomePage(props) {
   const createTicket = (ticket) => {
     createNewTicket(contract, ticket, kit);
     // refetch tickets
-    getAllTickets(contract);
+    getTickets();
     // close modal
     setShowModal(false);
+  }
+
+  //buying a ticket
+  const purchaseTicket = (index, price, id) => {
+    buyTicket(contract, index, price, id, kit, approve);
+    // refetch tickets
+    getTickets();
   }
 
   const handleShowModal = () => {
@@ -61,7 +65,7 @@ export default function HomePage(props) {
         <div className="w-full mb-2 md:px-4 lg:px-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-4">
             {ticketsList.map((ticket, index) => (
-              <EventCard key={index} index={index} ticket={ticket} />
+              <EventCard key={index} index={index} ticket={ticket} purchaseTicket={purchaseTicket} />
             ))}
           </div>
         </div>

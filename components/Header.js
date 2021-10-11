@@ -18,10 +18,15 @@ export default function Header({ handleShowCart, balance }) {
             {balance}cUSD
           </h1>
         )}
-        <button className="sm:mx-2 border-2 rounded-md border-white p-2 hover:border-primary mb-2" onClick={() => handleShowCart()}>
-          <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <button className="relative inline-block sm:mx-2 border-2 rounded-md border-white p-2 hover:border-primary mb-2" onClick={() => handleShowCart()}>
+          <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
           </svg>
+          <span
+            className="absolute top-0 right-0 px-2 py-1 text-xs font-bold leading-none text-white transform bg-primary rounded-full"
+          >
+            9
+          </span>
         </button>
       </div>
     </nav>

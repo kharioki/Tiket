@@ -135,6 +135,9 @@ contract Tiket {
         );
         // update sold ticket
         tickets[_index].ticketsSold++;
+        tickets[_index].totalAvailable--;
+        
+        _createPurchasedTicket(tickets[_index].name, msg.sender);
     }
 
     /**
@@ -245,6 +248,8 @@ contract Tiket {
         );
         // update sold ticket item
         item.itemsSold++;
+        item.totalItemsAvailable--;
+        _createPurchasedTicketItem(_ticket, msg.sender);
     }
 
     /**
@@ -272,11 +277,8 @@ contract Tiket {
         return userTickets[_owner].length;
     }
 
-    /**
-     * @dev function called after a ticket is bought
-     */
-    function createPurchasedTicket(string memory _ticketId) public {
-        uint256 _boughtOn = block.timestamp;
+    function _createPurchasedTicket(string memory _ticketId, address ticketOwner) private{
+         uint256 _boughtOn = block.timestamp;
         bool _isValid = true;
 
         PurchasedTicket memory item = PurchasedTicket(
@@ -285,8 +287,14 @@ contract Tiket {
             _isValid
         );
 
-        userTickets[msg.sender].push(item);
+        userTickets[ticketOwner].push(item);
     }
+    /**
+     * @dev function called after a ticket is bought
+     */
+    // function createPurchasedTicket(string memory _ticketId) public {
+    //   _createPurchasedTicket(_ticketId, msg.sender)
+    // }
 
     /**
      * @dev function called to get a purchased ticket
@@ -338,7 +346,7 @@ contract Tiket {
     /**
      * @dev function called after a ticketItem is bought
      */
-    function createPurchasedTicketItem(string memory _ticketItemId) public {
+    function _createPurchasedTicketItem(string memory _ticketItemId, address ownerOfItem) private {
         uint256 _boughtOn = block.timestamp;
 
         PurchasedTicketItem memory item = PurchasedTicketItem(
@@ -346,8 +354,11 @@ contract Tiket {
             _boughtOn
         );
 
-        userTicketItems[msg.sender].push(item);
+        userTicketItems[ownerOfItem].push(item);
     }
+    // function createPurchasedTicketItem(string memory _ticketItemId) public {
+    //     _createPurchasedTicketItem(_ticketItemId, msg.sender);
+    // }
 
     /**
      * @dev function called to get a purchased ticket item

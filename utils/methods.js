@@ -148,11 +148,11 @@ export const buyTicket = async (contract, index, price, id, kit, approve) => {
   }
 
   // then create the purchased ticket
-  try {
-    await createPurchasedTicket(contract, id, kit);
-  } catch (error) {
-    console.error(error);
-  }
+  // try {
+  //   await createPurchasedTicket(contract, id, kit);
+  // } catch (error) {
+  //   console.error(error);
+  // }
 }
 
 export const getPurchasedTickets = async (contract, address) => {

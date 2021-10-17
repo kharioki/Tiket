@@ -4,9 +4,12 @@ import { SwagCard } from './SwagCard';
 
 export function TicketCard({ ticket, address, showModal, items, purchaseItem }) {
 
+  console.log({ticket})
   if (!ticket) {
     return <div className="font-bold">Loading...</div>;
   }
+
+
   return (
     <div className="bg-secondary rounded-md shadow-lg m-2 md:m-10 flex flex-row flex-wrap justify-between w-full lg:w-2/3 h-2/3 xl:h-2/3 justify-items-center">
       <div className="flex-1 py-6 px-6 bg-gradient-to-b sm:bg-gradient-to-r from-primary via-primary rounded-md md:w-1/2">
@@ -27,6 +30,8 @@ export function TicketCard({ ticket, address, showModal, items, purchaseItem }) 
           <h3 className="text-2xl text-yellow-900 text-left font-bold">{ticket.name}</h3>
           <p className="text-sm text-gray-500">{ticket.venue}</p>
           <p className="text-sm text-yellow-900">{format(new Date(ticket.date), 'EEE, MMM dd yyyy')}, {ticket.time}</p>
+          <p className="text-sm text-gray-500">Sales {ticket.ticketsSold}</p>
+          <p className="text-sm text-gray-500">Available tickets {ticket.totalAvailable}</p>
         </div>
         <div className="mt-4 py-2 border-b border-yellow-900">
           <h1 className="text-3xl text-yellow-900 font-bold">{ticket.price.shiftedBy(-ERC20_DECIMALS).toFixed(2)} cUSD</h1>

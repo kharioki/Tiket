@@ -32,6 +32,15 @@ contract Tiket {
     address internal cUsdTokenAddress =
         0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1;
 
+    modifier onlyTicketOwner(uint256 _index) {
+        Ticket storage ticket = tickets[_index];
+        require(
+            msg.sender == ticket.owner,
+            "only the owner of this tickete can call this function"
+        );
+        _;
+    }
+
     /**
      * @title A single ticket object
      */
@@ -55,6 +64,20 @@ contract Tiket {
         return (ticketsLength);
     }
 
+    function validateData(
+        string memory _name,
+        string memory _venue,
+        string memory _details,
+        string memory _image,
+        uint256 _price
+    ) internal pure {
+        require(bytes(_name).length > 1, "Please enter a valid ticket name");
+        require(bytes(_venue).length > 1, "Please enter a valid ticket name");
+        require(bytes(_details).length > 1, "Please enter a valid ticket name");
+        require(bytes(_image).length > 1, "Please enter a valid ticket name");
+        require(_price > 0, "Please enter a valid ticket name");
+    }
+
     // function called when we create a ticket for an event
     function createTicket(
         string memory _name,
@@ -66,6 +89,8 @@ contract Tiket {
         uint256 _price,
         uint256 _totalAvailable
     ) public {
+        // ensure correct data being passed
+        validateData(_name, _venue, _details, _image, _price);
         uint256 _ticketsSold = 0;
         uint256 _createdAt = block.timestamp;
         tickets[ticketsLength] = Ticket(
@@ -82,6 +107,35 @@ contract Tiket {
             _ticketsSold
         );
         ticketsLength++;
+    }
+
+    // function called when we create a ticket for an event
+    function editTicket(
+        uint256 _index,
+        string memory _name,
+        string memory _date,
+        string memory _venue,
+        string memory _time,
+        string memory _details,
+        string memory _image,
+        uint256 _price,
+        uint256 _totalAvailable
+    ) public onlyTicketOwner(_index) {
+        // ensure correct data being passed
+        validateData(_name, _venue, _details, _image, _price);
+        Ticket storage ticket = tickets[_index];
+        uint256 _ticketsSold = ticket.ticketsSold;
+        uint256 _createdAt = ticket.createdAt;
+        ticket.name = _name;
+        ticket.date = _date;
+        ticket.venue = _venue;
+        ticket.time = _time;
+        ticket.details = _details;
+        ticket.image = _image;
+        ticket.createdAt = _createdAt;
+        ticket.price = _price;
+        ticket.totalAvailable = _totalAvailable;
+        ticket.ticketsSold = _ticketsSold;
     }
 
     /**

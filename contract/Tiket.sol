@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity >=0.7.0 <0.9.0;
+import "./Nft.sol";
 
 interface IERC20Token {
     function transfer(address, uint256) external returns (bool);
@@ -28,9 +29,14 @@ interface IERC20Token {
 }
 
 contract Tiket {
+    Nft private nft; 
     uint256 internal ticketsLength = 0;
     address internal cUsdTokenAddress =
         0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1;
+        
+    constructor(Nft _nft) {
+        nft = _nft;
+    }
 
     /**
      * @title A single ticket object
@@ -133,6 +139,7 @@ contract Tiket {
             ),
             "Transfer failed"
         );
+        nft.awardItem(msg.sender, "https://ticketportal.celo");
         // update sold ticket
         tickets[_index].ticketsSold++;
     }

@@ -21,7 +21,8 @@ export function EventCard({ index, ticket, purchaseTicket }) {
         <h2 className="absolute transform -rotate-90 left-6 top-24 -translate-x-24 text-white text-3xl font-light">
           {format(new Date(ticket.date), 'EEE,MMM dd')}
         </h2>
-        {sold > 0 && sold < total ? <p className="absolute bg-white text-primary transform rotate-3 -top-3 -right-1">{sold} of {total} sold</p> : null}
+        {sold > 0 && sold < total ? <p className="absolute bg-white text-primary transform rotate-3 -top-3 -right-1">{sold} sold</p> : null}
+        {sold > 0 && sold < total ? <p className="absolute bg-white text-primary transform rotate-3 top-3 -right-1">{total} remaining</p> : null}
         {sold === total && <p className="absolute bg-white text-primary transform rotate-3 -top-3 -right-1">Sold Out</p>}
 
       </div>

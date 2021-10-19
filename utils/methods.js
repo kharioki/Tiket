@@ -115,22 +115,6 @@ export const createTicketItem = async (contract, ticketItem, kit, id) => {
   }
 }
 
-const createPurchasedTicket = async (contract, id, kit) => {
-  const params = [
-    id,
-  ];
-
-  try {
-    const res = await contract.methods
-      .createPurchasedTicket(...params)
-      .send({
-        from: kit.defaultAccount,
-      });
-  } catch (error) {
-    console.error(error);
-  }
-}
-
 export const buyTicket = async (contract, index, price, id, kit, approve) => {
   // first approve the contract to spend
   try {
@@ -141,18 +125,11 @@ export const buyTicket = async (contract, index, price, id, kit, approve) => {
   // then buy the ticket
   try {
     const result = await contract.methods
-      .buyTicket(index)
+      .buyTicket(index, id)
       .send({ from: kit.defaultAccount });
   } catch (error) {
     console.error(error);
   }
-
-  // then create the purchased ticket
-  // try {
-  //   await createPurchasedTicket(contract, id, kit);
-  // } catch (error) {
-  //   console.error(error);
-  // }
 }
 
 export const getPurchasedTickets = async (contract, address) => {
@@ -192,22 +169,6 @@ export const getPurchasedTicketItems = async (contract, address) => {
   return await Promise.all(_purchasedTicketItems);
 }
 
-const createPurchasedTicketItem = async (contract, id, kit) => {
-  const params = [
-    id,
-  ];
-
-  try {
-    const res = await contract.methods
-      .createPurchasedTicketItem(...params)
-      .send({
-        from: kit.defaultAccount,
-      });
-  } catch (error) {
-    console.error(error);
-  }
-}
-
 export const buyTicketItem = async (contract, index, price, id, kit, approve) => {
   // first approve the contract to spend
   try {
@@ -220,13 +181,6 @@ export const buyTicketItem = async (contract, index, price, id, kit, approve) =>
     const result = await contract.methods
       .buyTicketItem(id, index)
       .send({ from: kit.defaultAccount });
-  } catch (error) {
-    console.error(error);
-  }
-
-  // then create the purchased ticket
-  try {
-    await createPurchasedTicketItem(contract, id, kit);
   } catch (error) {
     console.error(error);
   }
@@ -243,23 +197,33 @@ export const getCartTickets = async (contract, cart) => {
   return cartTickets;
 }
 
-//TODO: GET TICKET ITEM
-// const getTicketItem = async (contract, index) => {
-//   const _ticketItem = new Promise(async (resolve, reject) => {
-//     const t = await contract.methods.getTicketItem(index).call();
-//     resolve({
-//       index: index,
-//       owner: t[0],
-//       ticketId: t[1],
-//       name: t[2],
-//       image: t[3],
-//       price: new BigNumber(t[4]),
-//       totalItemsAvailable: t[5],
-//       itemsSold: t[6],
-//     });
-//   });
-//   return await _ticketItem;
-// }
+export const getCartTicketItems = async (contract, cartItems) => {
+  const cartTicketItems = [];
+  for (let i = 0; i < cartItems.length; i++) {
+    let index = parseInt(cartItems[i].index);
+    let _ticket = cartItems[i].ticketItemId;
+    let _ticketItem = await getTicketItem(contract, _ticket, index);
+    cartTicketItems.push(_ticketItem);
+  }
+  return cartTicketItems;
+}
+
+const getTicketItem = async (contract, _ticket, index) => {
+  const _ticketItem = new Promise(async (resolve, reject) => {
+    const t = await contract.methods.getTicketItem(_ticket, index).call();
+    resolve({
+      index: index,
+      owner: t[0],
+      ticketId: t[1],
+      name: t[2],
+      image: t[3],
+      price: new BigNumber(t[4]),
+      totalItemsAvailable: t[5],
+      itemsSold: t[6],
+    });
+  });
+  return await _ticketItem;
+}
 
 //TODO: GET PURCHASED TICKET ITEM
 // export const getCartTicketItems = async (contract, cartItems) =>  {

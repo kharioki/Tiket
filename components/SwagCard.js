@@ -8,6 +8,8 @@ export function SwagCard({ item, index, buyItem }) {
       buyItem(index, item.price, item.ticketId)
   }
 
+  const sold = parseInt(item.itemsSold)
+  const total = parseInt(item.totalItemsAvailable)
   return (
     <div className="relative">
       <div className="w-full min-h-40 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-40 lg:aspect-none">
@@ -16,6 +18,9 @@ export function SwagCard({ item, index, buyItem }) {
           alt={item.image}
           className="w-full h-full object-center object-cover lg:w-full lg:h-full"
         />
+        {sold > 0 && sold < total ? <p className="absolute bg-white text-yellow-800 text-sm transform rotate-3 -top-3 -right-1">{sold} sold</p> : null}
+        {sold > 0 && sold < total ? <p className="absolute bg-white text-yellow-800 text-sm transform rotate-3 top-3 -right-1">{total} left</p> : null}
+        {sold === total && <p className="absolute bg-white text-primary transform rotate-3 -top-3 -right-1">Sold Out</p>}
       </div>
       <div className="mt-4 flex justify-between">
         <div>

@@ -4,7 +4,7 @@ import { SwagCard } from './SwagCard';
 
 export function TicketCard({ ticket, address, showModal, items, purchaseItem }) {
 
-  console.log({ticket})
+  console.log({ ticket })
   if (!ticket) {
     return <div className="font-bold">Loading...</div>;
   }
@@ -28,10 +28,10 @@ export function TicketCard({ ticket, address, showModal, items, purchaseItem }) 
       <div className="px-6 py-2 sm:py-6 w-full md:w-1/2">
         <div className="mt-2 sm:mt-8">
           <h3 className="text-2xl text-yellow-900 text-left font-bold">{ticket.name}</h3>
-          <p className="text-sm text-gray-500">{ticket.venue}</p>
-          <p className="text-sm text-yellow-900">{format(new Date(ticket.date), 'EEE, MMM dd yyyy')}, {ticket.time}</p>
-          <p className="text-sm text-gray-500">Sales {ticket.ticketsSold}</p>
-          <p className="text-sm text-gray-500">Available tickets {ticket.totalAvailable}</p>
+          <p className="text-sm text-gray-500 mt-2">{ticket.venue}</p>
+          <p className="text-sm text-yellow-900 mt-2">{format(new Date(ticket.date), 'EEE, MMM dd yyyy')}, {ticket.time}</p>
+          <p className="text-sm text-gray-500 mt-2">Tickets sold: <strong className="text-yellow-800 text-md">{ticket.ticketsSold}</strong></p>
+          <p className="text-sm text-gray-500 mt-2">Available tickets: <strong className="text-yellow-800 text-md">{ticket.totalAvailable}</strong></p>
         </div>
         <div className="mt-4 py-2 border-b border-yellow-900">
           <h1 className="text-3xl text-yellow-900 font-bold">{ticket.price.shiftedBy(-ERC20_DECIMALS).toFixed(2)} cUSD</h1>

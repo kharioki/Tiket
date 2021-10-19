@@ -19,7 +19,6 @@ export function Cart({ handleCloseCart, cart, contract, cartItems }) {
     setTicketItems(ticketItems);
   };
 
-  console.log(contract)
   useEffect(() => {
     if (contract && cart) {
       getTickets();

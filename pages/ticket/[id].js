@@ -8,7 +8,7 @@ import { SwagModal } from '../../components/SwagModal';
 import { getTicket, getTicketItems, createTicketItem, buyTicketItem } from '../../utils/methods';
 
 export default function TicketPage(props) {
-  const { showCart, handleCloseCart, contract, accountAddress, kit, approve, getCartTicketItems } = props;
+  const { showCart, handleCloseCart, contract, accountAddress, kit, approve, getCartTicketItems, cart, cartItems } = props;
   const [showModal, setShowModal] = useState(false);
   const [ticket, setTicket] = useState(null);
   const [items, setItems] = useState([]);
@@ -82,7 +82,7 @@ export default function TicketPage(props) {
           </p>
         </div>
         <TicketCard ticket={ticket} address={accountAddress} showModal={handleShowModal} items={items} purchaseItem={purchaseItem} />
-        {showCart && <Cart handleCloseCart={handleCloseCart} />}
+        {showCart && <Cart handleCloseCart={handleCloseCart} cart={cart} contract={contract} cartItems={cartItems} />}
         {showModal && <SwagModal handleClose={handleCloseModal} createTicketItem={addTicketItem} />}
       </div>
     </div>

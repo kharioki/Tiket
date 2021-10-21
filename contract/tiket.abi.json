@@ -5,11 +5,6 @@
 				"internalType": "uint256",
 				"name": "_index",
 				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_id",
-				"type": "string"
 			}
 		],
 		"name": "buyTicket",

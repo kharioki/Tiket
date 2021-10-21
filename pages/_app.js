@@ -12,7 +12,7 @@ import Header from '../components/Header';
 
 const ERC20_DECIMALS = 18;
 const cUSDContractAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1"
-const TiketContractAddress = "0xa5FD7aEDCFa80C1a00AD1Edb9E40Ab4941998a80"
+const TiketContractAddress = "0x54e359425749397c125Cd76F0dEf7704884AaB3B"
 
 function MyApp({ Component, pageProps }) {
   const [showCart, setShowCart] = useState(false);
@@ -66,14 +66,14 @@ function MyApp({ Component, pageProps }) {
     setCartItems(_cartItems);
   }
 
-  const approve = async (price) => {
-    const cUSDContract = new kit.web3.eth.Contract(erc20Abi, cUSDContractAddress);
+  async function approve(_price) {
+    const cUSDContract = new kit.web3.eth.Contract(erc20Abi, cUSDContractAddress)
 
     const result = await cUSDContract.methods
-      .approve(TiketContractAddress, price)
-      .send({ from: kit.defaultAccount });
+      .approve(TiketContractAddress, _price)
+      .send({ from: kit.defaultAccount })
 
-    return result;
+    return result
   }
 
   const handleShowCart = () => {

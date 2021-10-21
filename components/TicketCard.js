@@ -4,11 +4,9 @@ import { SwagCard } from './SwagCard';
 
 export function TicketCard({ ticket, address, showModal, items, purchaseItem }) {
 
-  console.log({ ticket })
   if (!ticket) {
     return <div className="font-bold">Loading...</div>;
   }
-
 
   return (
     <div className="bg-secondary rounded-md shadow-lg m-2 md:m-10 flex flex-row flex-wrap justify-between w-full lg:w-2/3 h-2/3 xl:h-2/3 justify-items-center">

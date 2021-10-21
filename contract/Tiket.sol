@@ -20,6 +20,7 @@ interface IERC20Token {
     function allowance(address, address) external view returns (uint256);
 
     event Transfer(address indexed from, address indexed to, uint256 value);
+
     event Approval(
         address indexed owner,
         address indexed spender,
@@ -36,7 +37,7 @@ contract Tiket {
         Ticket storage ticket = tickets[_index];
         require(
             msg.sender == ticket.owner,
-            "only the owner of this tickete can call this function"
+            "only the owner of this ticket can call this function"
         );
         _;
     }
@@ -190,7 +191,7 @@ contract Tiket {
         // update sold ticket
         tickets[_index].ticketsSold++;
         tickets[_index].totalAvailable--;
-        
+
         _createPurchasedTicket(tickets[_index].name, msg.sender);
     }
 
@@ -331,8 +332,14 @@ contract Tiket {
         return userTickets[_owner].length;
     }
 
-    function _createPurchasedTicket(string memory _ticketId, address ticketOwner) private{
-         uint256 _boughtOn = block.timestamp;
+    /**
+     * @dev function called after a ticket is bought
+     */
+    function _createPurchasedTicket(
+        string memory _ticketId,
+        address ticketOwner
+    ) private {
+        uint256 _boughtOn = block.timestamp;
         bool _isValid = true;
 
         PurchasedTicket memory item = PurchasedTicket(
@@ -343,12 +350,6 @@ contract Tiket {
 
         userTickets[ticketOwner].push(item);
     }
-    /**
-     * @dev function called after a ticket is bought
-     */
-    // function createPurchasedTicket(string memory _ticketId) public {
-    //   _createPurchasedTicket(_ticketId, msg.sender)
-    // }
 
     /**
      * @dev function called to get a purchased ticket
@@ -400,7 +401,10 @@ contract Tiket {
     /**
      * @dev function called after a ticketItem is bought
      */
-    function _createPurchasedTicketItem(string memory _ticketItemId, address ownerOfItem) private {
+    function _createPurchasedTicketItem(
+        string memory _ticketItemId,
+        address ownerOfItem
+    ) private {
         uint256 _boughtOn = block.timestamp;
 
         PurchasedTicketItem memory item = PurchasedTicketItem(
@@ -410,9 +414,6 @@ contract Tiket {
 
         userTicketItems[ownerOfItem].push(item);
     }
-    // function createPurchasedTicketItem(string memory _ticketItemId) public {
-    //     _createPurchasedTicketItem(_ticketItemId, msg.sender);
-    // }
 
     /**
      * @dev function called to get a purchased ticket item

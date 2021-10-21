@@ -21,6 +21,7 @@ export default function HomePage(props) {
       setTicketsList(tickets);
     });
   }
+  console.log(ticketsList);
 
   // create a ticket
   const createTicket = (ticket) => {

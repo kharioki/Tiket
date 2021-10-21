@@ -5,6 +5,8 @@ import { ERC20_DECIMALS } from '../utils/methods';
 export function EventCard({ index, ticket, purchaseTicket }) {
   const router = useRouter()
 
+  console.log('ticket price', ticket.price.shiftedBy(-ERC20_DECIMALS).toFixed(2))
+
   const purchase = () => {
     const id = index.toString();
     // confirm purchase

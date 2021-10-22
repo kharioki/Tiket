@@ -4,36 +4,27 @@ pragma solidity >=0.7.0 <0.9.0;
 
 interface IERC20Token {
     function transfer(address, uint256) external returns (bool);
-
+    
     function approve(address, uint256) external returns (bool);
-
-    function transferFrom(
-        address,
-        address,
-        uint256
-    ) external returns (bool);
-
+    
+    function transferFrom(address, address, uint256) external returns (bool);
+    
     function totalSupply() external view returns (uint256);
-
+    
     function balanceOf(address) external view returns (uint256);
-
+    
     function allowance(address, address) external view returns (uint256);
 
     event Transfer(address indexed from, address indexed to, uint256 value);
-
-    event Approval(
-        address indexed owner,
-        address indexed spender,
-        uint256 value
-    );
+    
+    event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
 contract Tiket {
     uint256 internal ticketsLength = 0;
-    address internal cUsdTokenAddress =
-        0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1;
+    address internal cUsdTokenAddress = 0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1;
 
-    modifier onlyTicketOwner(uint256 _index) {
+    modifier onlyTicketOwner(uint _index) {
         Ticket storage ticket = tickets[_index];
         require(
             msg.sender == ticket.owner,
@@ -54,12 +45,12 @@ contract Tiket {
         string details;
         string image;
         uint256 createdAt;
-        uint256 price;
-        uint256 totalAvailable;
-        uint256 ticketsSold;
+        uint price;
+        uint totalAvailable;
+        uint ticketsSold;
     }
 
-    mapping(uint256 => Ticket) internal tickets;
+    mapping(uint => Ticket) internal tickets;
 
     function getTicketsLength() public view returns (uint256) {
         return (ticketsLength);
@@ -70,7 +61,7 @@ contract Tiket {
         string memory _venue,
         string memory _details,
         string memory _image,
-        uint256 _price
+        uint _price
     ) internal pure {
         require(bytes(_name).length > 1, "Please enter a valid ticket name");
         require(bytes(_venue).length > 1, "Please enter a valid ticket name");
@@ -87,12 +78,12 @@ contract Tiket {
         string memory _time,
         string memory _details,
         string memory _image,
-        uint256 _price,
-        uint256 _totalAvailable
+        uint _price,
+        uint _totalAvailable
     ) public {
         // ensure correct data being passed
         validateData(_name, _venue, _details, _image, _price);
-        uint256 _ticketsSold = 0;
+        uint _ticketsSold = 0;
         uint256 _createdAt = block.timestamp;
         tickets[ticketsLength] = Ticket(
             payable(msg.sender),
@@ -112,20 +103,20 @@ contract Tiket {
 
     // function called when we create a ticket for an event
     function editTicket(
-        uint256 _index,
+        uint _index,
         string memory _name,
         string memory _date,
         string memory _venue,
         string memory _time,
         string memory _details,
         string memory _image,
-        uint256 _price,
-        uint256 _totalAvailable
+        uint _price,
+        uint _totalAvailable
     ) public onlyTicketOwner(_index) {
         // ensure correct data being passed
         validateData(_name, _venue, _details, _image, _price);
         Ticket storage ticket = tickets[_index];
-        uint256 _ticketsSold = ticket.ticketsSold;
+        uint _ticketsSold = ticket.ticketsSold;
         uint256 _createdAt = ticket.createdAt;
         ticket.name = _name;
         ticket.date = _date;
@@ -143,7 +134,7 @@ contract Tiket {
      * @dev function called when getting a single ticket information
      * @return Ticket object
      */
-    function getTicket(uint256 _index)
+    function getTicket(uint _index)
         public
         view
         returns (
@@ -155,9 +146,9 @@ contract Tiket {
             string memory,
             string memory,
             uint256,
-            uint256,
-            uint256,
-            uint256
+            uint,
+            uint,
+            uint
         )
     {
         Ticket storage ticket = tickets[_index];
@@ -179,7 +170,7 @@ contract Tiket {
     /**
      * @dev function called when we buy a ticket
      */
-    function buyTicket(string memory _id, uint256 _index) public payable {
+    function buyTicket(string memory _id, uint _index) public payable {
         require(
             IERC20Token(cUsdTokenAddress).transferFrom(
                 msg.sender,
@@ -191,7 +182,7 @@ contract Tiket {
         // update sold ticket
         tickets[_index].ticketsSold++;
         tickets[_index].totalAvailable--;
-
+        
         _createPurchasedTicket(_id, msg.sender);
     }
 
@@ -203,9 +194,9 @@ contract Tiket {
         string ticketId;
         string name;
         string image;
-        uint256 price;
-        uint256 totalItemsAvailable;
-        uint256 itemsSold;
+        uint price;
+        uint totalItemsAvailable;
+        uint itemsSold;
     }
 
     // Maps ticket to its ticketItems
@@ -218,7 +209,7 @@ contract Tiket {
     function getTicketsItemsLength(string memory _id)
         public
         view
-        returns (uint256)
+        returns (uint)
     {
         return ticketItems[_id].length;
     }
@@ -231,10 +222,10 @@ contract Tiket {
         string memory _ticketId,
         string memory _name,
         string memory _image,
-        uint256 _price,
-        uint256 _totalItemsAvailable
+        uint _price,
+        uint _totalItemsAvailable
     ) public {
-        uint256 _itemsSold = 0;
+        uint _itemsSold = 0;
 
         TicketItem memory item = TicketItem(
             payable(msg.sender),
@@ -260,9 +251,9 @@ contract Tiket {
             string memory,
             string memory,
             string memory,
-            uint256,
-            uint256,
-            uint256
+            uint,
+            uint,
+            uint
         )
     {
         require(_index >= 0);
@@ -287,7 +278,7 @@ contract Tiket {
     /**
      * @dev function called when we buy a ticket
      */
-    function buyTicketItem(string memory _ticket, uint256 _index)
+    function buyTicketItem(string memory _ticket, uint _index)
         public
         payable
     {
@@ -327,7 +318,7 @@ contract Tiket {
     function getUserTicketsLength(address _owner)
         public
         view
-        returns (uint256)
+        returns (uint)
     {
         return userTickets[_owner].length;
     }
@@ -335,11 +326,8 @@ contract Tiket {
     /**
      * @dev function called after a ticket is bought
      */
-    function _createPurchasedTicket(
-        string memory _ticketId,
-        address ticketOwner
-    ) private {
-        uint256 _boughtOn = block.timestamp;
+    function _createPurchasedTicket(string memory _ticketId, address ticketOwner) private{
+         uint256 _boughtOn = block.timestamp;
         bool _isValid = true;
 
         PurchasedTicket memory item = PurchasedTicket(
@@ -354,7 +342,7 @@ contract Tiket {
     /**
      * @dev function called to get a purchased ticket
      */
-    function getPurchasedTicket(address _owner, uint256 _index)
+    function getPurchasedTicket(address _owner, uint _index)
         public
         view
         returns (
@@ -393,7 +381,7 @@ contract Tiket {
     function getUserTicketItemsLength(address _owner)
         public
         view
-        returns (uint256)
+        returns (uint)
     {
         return userTicketItems[_owner].length;
     }
@@ -401,10 +389,7 @@ contract Tiket {
     /**
      * @dev function called after a ticketItem is bought
      */
-    function _createPurchasedTicketItem(
-        string memory _ticketItemId,
-        address ownerOfItem
-    ) private {
+    function _createPurchasedTicketItem(string memory _ticketItemId, address ownerOfItem) private {
         uint256 _boughtOn = block.timestamp;
 
         PurchasedTicketItem memory item = PurchasedTicketItem(
@@ -418,7 +403,7 @@ contract Tiket {
     /**
      * @dev function called to get a purchased ticket item
      */
-    function getPurchasedTicketItem(address _owner, uint256 _index)
+    function getPurchasedTicketItem(address _owner, uint _index)
         public
         view
         returns (string memory, uint256)

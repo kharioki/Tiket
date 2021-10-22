@@ -125,8 +125,10 @@ export const buyTicket = async (contract, index, price, id, kit, approve) => {
   // then buy the ticket
   try {
     const result = await contract.methods
-      .buyTicket(index, id)
+      .buyTicket(id, index)
       .send({ from: kit.defaultAccount });
+
+    // console.log('buy result: ', result);
   } catch (error) {
     console.error(error);
   }

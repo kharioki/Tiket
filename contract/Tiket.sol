@@ -179,7 +179,7 @@ contract Tiket {
     /**
      * @dev function called when we buy a ticket
      */
-    function buyTicket(uint256 _index) public payable {
+    function buyTicket(string memory _id, uint256 _index) public payable {
         require(
             IERC20Token(cUsdTokenAddress).transferFrom(
                 msg.sender,
@@ -192,7 +192,7 @@ contract Tiket {
         tickets[_index].ticketsSold++;
         tickets[_index].totalAvailable--;
 
-        _createPurchasedTicket(tickets[_index].name, msg.sender);
+        _createPurchasedTicket(_id, msg.sender);
     }
 
     /**

@@ -12,7 +12,7 @@ import Header from '../components/Header';
 
 const ERC20_DECIMALS = 18;
 const cUSDContractAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1"
-const TiketContractAddress = "0xFABC3AeF2440FfD72b3A02BD94dcA0f3d6C77F46"
+const TiketContractAddress = "0x4Bb74c714EDE0d60d60A555e84838b34f956cA06"
 
 function MyApp({ Component, pageProps }) {
   const [showCart, setShowCart] = useState(false);
@@ -73,6 +73,7 @@ function MyApp({ Component, pageProps }) {
       .approve(TiketContractAddress, _price)
       .send({ from: kit.defaultAccount })
 
+    // console.log(result)
     return result
   }
 
@@ -114,7 +115,8 @@ function MyApp({ Component, pageProps }) {
     cart,
     cartItems,
     getCart,
-    getCartTicketItems
+    getCartTicketItems,
+    getBalance
   };
   return (
     <div>

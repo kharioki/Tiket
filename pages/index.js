@@ -9,7 +9,7 @@ import { Footer } from '../components/Footer';
 import { getAllTickets, createNewTicket, buyTicket } from '../utils/methods';
 
 export default function HomePage(props) {
-  const { showCart, handleCloseCart, contract, kit, approve, cart, cartItems, getCart } = props;
+  const { showCart, handleCloseCart, contract, kit, approve, cart, cartItems, getCart, getBalance } = props;
   const [showModal, setShowModal] = useState(false);
   const [ticketsList, setTicketsList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -41,6 +41,8 @@ export default function HomePage(props) {
     getTickets();
     // refetch cart
     getCart();
+    // refetch balance
+    getBalance();
   }
 
   const handleShowModal = () => {

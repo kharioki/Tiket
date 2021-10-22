@@ -36,7 +36,7 @@ export const createNewTicket = async (contract, ticket, kit) => {
     ticket.time,
     ticket.details,
     ticket.image,
-    new BigNumber(ticket.price).shiftedBy(ERC20_DECIMALS).toString(),
+    ticket.price,
     ticket.totalAvailable,
   ];
 

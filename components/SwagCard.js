@@ -4,8 +4,8 @@ export function SwagCard({ item, index, buyItem }) {
 
   const purchaseItem = () => {
     // confirm purchase
-    confirm('Are you sure you want to purchase this ticket item?') &&
-      buyItem(index, item.price, item.ticketId)
+    // confirm('Are you sure you want to purchase this ticket item?') &&
+    buyItem(index, item.price, item.ticketId)
   }
 
   const sold = parseInt(item.itemsSold)

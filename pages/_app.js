@@ -40,6 +40,23 @@ function MyApp({ Component, pageProps }) {
         const _contract = new kit.web3.eth.Contract(tiketAbi, TiketContractAddress);
         await setContract(_contract);
 
+        // web3 events
+        let options = {
+          fromBlock: 0,
+          address: ["0xA1FC96b0b4D30120f39A25367732f6dC3C0a007a"], //Only get events from specific addresses
+          topics: [], //What topics to subscribe to
+        };
+
+        let subscription = web3.eth.subscribe("logs", options, (err, event) => {
+          if (!err) console.log(event);
+        });
+
+        subscription.on('data', event => {
+          if (contract) {
+            getRooms()
+          }
+        })
+
       } catch (error) {
         console.error(error);
       }

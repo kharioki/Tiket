@@ -10,9 +10,9 @@ export function EventCard({ index, ticket, purchaseTicket }) {
     const id = index.toString();
     const price = ticket.price;
 
-    // confirm purchase
-    confirm('Are you sure you want to purchase this ticket?') &&
-      purchaseTicket(index, price, id);
+    // // confirm purchase
+    // confirm('Are you sure you want to purchase this ticket?') &&
+    purchaseTicket(index, price, id);
   }
 
   const sold = parseInt(ticket.ticketsSold);

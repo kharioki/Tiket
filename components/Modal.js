@@ -1,4 +1,8 @@
 import React from 'react';
+import BigNumber from 'bignumber.js';
+
+import { ERC20_DECIMALS } from '../utils/methods';
+
 import useForm from '../utils/useForm';
 
 export function Modal({ handleClose, createTicket }) {
@@ -14,8 +18,12 @@ export function Modal({ handleClose, createTicket }) {
   });
 
   const handleSubmit = () => {
+    const vals = {
+      ...inputs,
+      price: new BigNumber(inputs.price).shiftedBy(ERC20_DECIMALS).toString(),
+    }
     // submit form
-    createTicket(inputs);
+    createTicket(vals);
     clearForm();
   }
 

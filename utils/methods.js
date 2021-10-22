@@ -117,8 +117,9 @@ export const createTicketItem = async (contract, ticketItem, kit, id) => {
 
 export const buyTicket = async (contract, index, price, id, kit, approve) => {
   // first approve the contract to spend
+  const cost = new BigNumber(price).shiftedBy(ERC20_DECIMALS).toString();
   try {
-    await approve(price);
+    await approve(cost);
   } catch (error) {
     console.error(error);
   }

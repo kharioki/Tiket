@@ -70,6 +70,7 @@ function MyApp({ Component, pageProps }) {
     const cUSDContract = new kit.web3.eth.Contract(erc20Abi, cUSDContractAddress)
 
     console.log(cUSDContract)
+    console.log(_price)
 
     const result = await cUSDContract.methods
       .approve(TiketContractAddress, _price)

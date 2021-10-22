@@ -116,10 +116,12 @@ export const createTicketItem = async (contract, ticketItem, kit, id) => {
 }
 
 export const buyTicket = async (contract, index, price, id, kit, approve) => {
+  console.log(price, id, index)
   // first approve the contract to spend
   try {
     await approve(price);
   } catch (error) {
+
     console.error(error);
   }
   // then buy the ticket

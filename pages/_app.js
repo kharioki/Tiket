@@ -80,6 +80,25 @@ function MyApp({ Component, pageProps }) {
     return result
   }
 
+  async function buyTicket(_price, index, id) {
+    // approve cUSD price to contract
+    try {
+      await approve(_price)
+    } catch (error) {
+      console.error(error)
+    }
+
+    // buy ticket
+    try {
+      const result = await contract.methods
+        .buyTicket(id, index)
+        .send({ from: kit.defaultAccount })
+      console.log(result)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   const handleShowCart = () => {
     setShowCart(true);
   };
@@ -119,7 +138,8 @@ function MyApp({ Component, pageProps }) {
     cartItems,
     getCart,
     getCartTicketItems,
-    getBalance
+    getBalance,
+    buyTicket
   };
   return (
     <div>

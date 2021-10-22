@@ -6,10 +6,10 @@ import { Modal } from '../components/Modal';
 import { Banner } from '../components/Banner';
 import { Cart } from '../components/Cart';
 import { Footer } from '../components/Footer';
-import { getAllTickets, createNewTicket, buyTicket } from '../utils/methods';
+import { getAllTickets, createNewTicket } from '../utils/methods';
 
 export default function HomePage(props) {
-  const { showCart, handleCloseCart, contract, kit, approve, cart, cartItems, getCart, getBalance } = props;
+  const { showCart, handleCloseCart, contract, kit, approve, cart, cartItems, getCart, getBalance, buyTicket } = props;
   const [showModal, setShowModal] = useState(false);
   const [ticketsList, setTicketsList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -24,8 +24,8 @@ export default function HomePage(props) {
   // console.log(ticketsList);
 
   // create a ticket
-  const createTicket = (ticket) => {
-    createNewTicket(contract, ticket, kit);
+  const createTicket = async (ticket) => {
+    await createNewTicket(contract, ticket, kit);
     // refetch tickets
     getTickets();
     // close modal
@@ -36,7 +36,7 @@ export default function HomePage(props) {
   const purchaseTicket = async (index, price, id) => {
     console.log(price);
     setLoading(true);
-    await buyTicket(contract, index, price, id, kit, approve);
+    await buyTicket(price, index, id);
     // refetch tickets
     setLoading(false);
     getTickets();

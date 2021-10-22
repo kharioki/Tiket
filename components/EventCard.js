@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import { format } from 'date-fns';
+
 import { ERC20_DECIMALS } from '../utils/methods';
 
 export function EventCard({ index, ticket, purchaseTicket }) {
@@ -8,6 +9,7 @@ export function EventCard({ index, ticket, purchaseTicket }) {
   const purchase = () => {
     const id = index.toString();
     const price = ticket.price;
+
     // confirm purchase
     confirm('Are you sure you want to purchase this ticket?') &&
       purchaseTicket(index, price, id);
@@ -33,9 +35,6 @@ export function EventCard({ index, ticket, purchaseTicket }) {
       <div className="m-2">
         <span className="text-primary text-lg font bold">{ticket.name}</span>
       </div>
-      {/* <div className="m-2">
-        <p className="text-gray-600 text-sm truncate overflow-">{ticket.details}</p>
-      </div> */}
       <div className="m-4 border-t-2 border-b-2 border-primary h-16 flex flex-row">
         <div className="flex-1 border-r-2 border-primary p-2 justify-center items-center">
           <button

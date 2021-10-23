@@ -66,24 +66,29 @@ function MyApp({ Component, pageProps }) {
     setCartItems(_cartItems);
   }
 
-  async function approve(_price) {
-    const cUSDContract = new kit.web3.eth.Contract(erc20Abi, cUSDContractAddress)
+  // async function approve(_price) {
+  //   const cUSDContract = new kit.web3.eth.Contract(erc20Abi, cUSDContractAddress)
 
-    console.log(cUSDContract)
-    console.log(_price)
+  //   console.log(cUSDContract)
+  //   console.log(_price)
+  //   console.log('kit', kit.defaultAccount)
 
-    const result = await cUSDContract.methods
-      .approve(TiketContractAddress, _price)
-      .send({ from: kit.defaultAccount })
+  //   const result = await cUSDContract.methods
+  //     .approve(TiketContractAddress, _price)
+  //     .send({ from: kit.defaultAccount })
 
-    // console.log(result)
-    return result
-  }
+  //   // console.log(result)
+  //   return result
+  // }
 
   async function buyTicket(_price, index, id) {
+    const cUSDContract = new kit.web3.eth.Contract(erc20Abi, cUSDContractAddress)
     // approve cUSD price to contract
     try {
-      await approve(_price)
+      // await approve(_price)
+      const result = await cUSDContract.methods
+        .approve(TiketContractAddress, _price)
+        .send({ from: kit.defaultAccount })
     } catch (error) {
       console.error(error)
     }

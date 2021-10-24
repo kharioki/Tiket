@@ -12,7 +12,7 @@ import Header from '../components/Header';
 
 const ERC20_DECIMALS = 18;
 const cUSDContractAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1"
-const TiketContractAddress = "0xA1FC96b0b4D30120f39A25367732f6dC3C0a007a"
+const TiketContractAddress = "0x085228eb61D0eBAF035c146a0AA3f535d7347f9d"
 
 function MyApp({ Component, pageProps }) {
   const [showCart, setShowCart] = useState(false);
@@ -39,23 +39,6 @@ function MyApp({ Component, pageProps }) {
 
         const _contract = new kit.web3.eth.Contract(tiketAbi, TiketContractAddress);
         await setContract(_contract);
-
-        // web3 events
-        let options = {
-          fromBlock: 0,
-          address: ["0xA1FC96b0b4D30120f39A25367732f6dC3C0a007a"], //Only get events from specific addresses
-          topics: [], //What topics to subscribe to
-        };
-
-        let subscription = web3.eth.subscribe("logs", options, (err, event) => {
-          if (!err) console.log(event);
-        });
-
-        subscription.on('data', event => {
-          if (contract) {
-            getRooms()
-          }
-        })
 
       } catch (error) {
         console.error(error);
@@ -92,6 +75,33 @@ function MyApp({ Component, pageProps }) {
 
     // console.log(result)
     return result
+  }
+
+  async function buyTicket(_price, index, id) {
+    const cUSDContract = new kit.web3.eth.Contract(erc20Abi, cUSDContractAddress)
+
+    console.log(cUSDContract)
+    console.log(_price)
+    console.log('kit', kit.defaultAccount)
+    // approve cUSD price to contract
+    try {
+      // await approve(_price)
+      const result = await cUSDContract.methods
+        .approve(TiketContractAddress, _price)
+        .send({ from: kit.defaultAccount })
+    } catch (error) {
+      console.error(error)
+    }
+
+    // buy ticket
+    try {
+      const result = await contract.methods
+        .buyTicket(id, index)
+        .send({ from: kit.defaultAccount })
+      console.log(result)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const handleShowCart = () => {
@@ -133,7 +143,8 @@ function MyApp({ Component, pageProps }) {
     cartItems,
     getCart,
     getCartTicketItems,
-    getBalance
+    getBalance,
+    buyTicket
   };
   return (
     <div>

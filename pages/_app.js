@@ -12,7 +12,7 @@ import Header from '../components/Header';
 
 const ERC20_DECIMALS = 18;
 const cUSDContractAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1"
-const TiketContractAddress = "0x085228eb61D0eBAF035c146a0AA3f535d7347f9d"
+const TiketContractAddress = "0x81AC0B2059b6bda4D3F167A9f1B277C7fFe13526"
 
 function MyApp({ Component, pageProps }) {
   const [showCart, setShowCart] = useState(false);

@@ -26,10 +26,10 @@ export default function HomePage(props) {
   // create a ticket
   const createTicket = async (ticket) => {
     await createNewTicket(contract, ticket, kit);
-    // refetch tickets
-    getTickets();
     // close modal
     setShowModal(false);
+    // refetch tickets
+    getTickets();
   }
 
   //buying a ticket

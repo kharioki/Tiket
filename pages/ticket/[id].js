@@ -33,18 +33,17 @@ export default function TicketPage(props) {
   }
 
   // create a new ticket item
-  const addTicketItem = (item) => {
-    createTicketItem(contract, item, kit, id);
+  const addTicketItem = async (item) => {
+    await createTicketItem(contract, item, kit, id);
+    setShowModal(false);
     // refetch ticket items
     getAllTicketItems();
-    setShowModal(false);
   }
 
   // buy ticket item
-  const purchaseItem = (index, price, id) => {
+  const purchaseItem = async (index, price, id) => {
     setProcessing(true);
-    buyTicketItem(contract, index, price, id, kit, approve);
-
+    await buyTicketItem(contract, index, price, id, kit, approve);
     setProcessing(false);
     // refetch ticket items
     getAllTicketItems();

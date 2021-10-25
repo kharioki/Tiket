@@ -85,12 +85,11 @@ function MyApp({ Component, pageProps }) {
     return result
   }
 
-  async function buyTicket(_price, index, id) {
+  async function buyTicket(_price, _index, _id) {
     // approve cUSD price to contract
     try {
       const res = await approve(_price)
     } catch (error) {
-      console.log({ error })
       console.error(error)
     }
 
@@ -98,7 +97,7 @@ function MyApp({ Component, pageProps }) {
     try {
       if (contract) {
         const result = await contract.methods
-          .buyTicket(id, index)
+          .buyTicket(_id, _index)
           .send({ from: kit.defaultAccount })
         // console.log(result)
       }
@@ -107,12 +106,11 @@ function MyApp({ Component, pageProps }) {
     }
   }
 
-  async function buyTicketItem(_price, index, id) {
+  async function buyTicketItem(_price, _index, _ticket) {
     // approve cUSD price to contract
     try {
       const res = await approve(_price)
     } catch (error) {
-      console.log({ error })
       console.error(error)
     }
 
@@ -120,7 +118,7 @@ function MyApp({ Component, pageProps }) {
     try {
       if (contract) {
         const result = await contract.methods
-          .buyTicketItem(id, index)
+          .buyTicketItem(_ticket, _index)
           .send({ from: kit.defaultAccount })
         // console.log(result)  
       }

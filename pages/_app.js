@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import { newKitFromWeb3 } from '@celo/contractkit';
+import BigNumber from 'bignumber.js';
 
 import tiketAbi from '../contract/tiket.abi.json';
 import erc20Abi from '../contract/erc20.abi.json';
@@ -12,17 +13,16 @@ import Header from '../components/Header';
 
 const ERC20_DECIMALS = 18;
 const cUSDContractAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1"
-const TiketContractAddress = "0x81AC0B2059b6bda4D3F167A9f1B277C7fFe13526"
+const TiketContractAddress = "0x20B1a35580B0B6d68A2D80bD008aF4003AAd2c30"
 
 function MyApp({ Component, pageProps }) {
   const [showCart, setShowCart] = useState(false);
-  const [balance, setBalance] = useState(null);
+  const [balance, setBalance] = useState(0);
   const [kit, setKit] = useState(null);
   const [contract, setContract] = useState(null);
   const [accountAddress, setAccountAddress] = useState(null);
   const [cart, setCart] = useState([]);
   const [cartItems, setCartItems] = useState([]);
-  // const [cUSDContract, setCUSDContract] = useState(null);
 
   const connectCeloWallet = async () => {
     if (window.celo) {
@@ -30,6 +30,8 @@ function MyApp({ Component, pageProps }) {
         await window.celo.enable();
         const web3 = new Web3(window.celo);
         let kit = newKitFromWeb3(web3);
+        // let kit = newKit("https://alfajores-forno.celo-testnet.org");
+
         await setKit(kit);
 
         const accounts = await kit.web3.eth.getAccounts();
@@ -89,9 +91,11 @@ function MyApp({ Component, pageProps }) {
     const _web3 = kit.web3
     const cUSDContract = await new _web3.eth.Contract(erc20Abi, cUSDContractAddress)
 
-    console.log(cUSDContract);
+    const cost = new BigNumber(_price).shiftedBy(ERC20_DECIMALS).toString();
+
+    // console.log(cUSDContract);
     const result = await cUSDContract.methods
-      .approve(TiketContractAddress, _price)
+      .approve(TiketContractAddress, cost)
       .send({ from: kit.defaultAccount })
 
     // console.log(result)

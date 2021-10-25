@@ -8,7 +8,7 @@ export function EventCard({ index, ticket, purchaseTicket }) {
 
   const purchase = () => {
     const id = index.toString();
-    const price = ticket.price;
+    const price = ticket.price / 1000000000000000000;
 
     // // confirm purchase
     // confirm('Are you sure you want to purchase this ticket?') &&

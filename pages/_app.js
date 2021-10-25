@@ -30,7 +30,6 @@ function MyApp({ Component, pageProps }) {
         await window.celo.enable();
         const web3 = new Web3(window.celo);
         let kit = newKitFromWeb3(web3);
-        // let kit = newKit("https://alfajores-forno.celo-testnet.org");
 
         await setKit(kit);
 
@@ -46,7 +45,7 @@ function MyApp({ Component, pageProps }) {
         // web3 events
         let options = {
           fromBlock: 0,
-          address: ["0x81AC0B2059b6bda4D3F167A9f1B277C7fFe13526"], //Only get events from specific addresses
+          address: ["0x81AC0B2059b6bda4D3F167A9f1B277C7fFe13526"],
           topics: [],
         };
 
@@ -116,7 +115,6 @@ function MyApp({ Component, pageProps }) {
         const result = await contract.methods
           .buyTicket(_id, _index)
           .send({ from: kit.defaultAccount })
-        // console.log(result)
       }
     } catch (error) {
       console.error(error)
@@ -137,7 +135,6 @@ function MyApp({ Component, pageProps }) {
         const result = await contract.methods
           .buyTicketItem(_ticket, _index)
           .send({ from: kit.defaultAccount })
-        // console.log(result)  
       }
     } catch (error) {
       console.error(error)

@@ -7,6 +7,7 @@ module.exports = {
       path: true,
       url: false,
       net: "empty",
+      electron: "empty",
     };
     return config;
   },

@@ -22,6 +22,7 @@ function MyApp({ Component, pageProps }) {
   const [accountAddress, setAccountAddress] = useState(null);
   const [cart, setCart] = useState([]);
   const [cartItems, setCartItems] = useState([]);
+  // const [cUSDContract, setCUSDContract] = useState(null);
 
   const connectCeloWallet = async () => {
     if (window.celo) {
@@ -40,6 +41,10 @@ function MyApp({ Component, pageProps }) {
         const _contract = new kit.web3.eth.Contract(tiketAbi, TiketContractAddress);
         await setContract(_contract);
 
+        // const _cUSDContract = new kit.web3.eth.Contract(erc20Abi, cUSDContractAddress)
+        // await setCUSDContract(_cUSDContract);
+
+        // console.log('cUSDContract', cUSDContract)
       } catch (error) {
         console.error(error);
       }
@@ -67,8 +72,11 @@ function MyApp({ Component, pageProps }) {
   }
 
   async function approve(_price) {
-    const cUSDContract = new kit.web3.eth.Contract(erc20Abi, cUSDContractAddress)
+    // const cUSDContract = new kit.web3.eth.Contract(erc20Abi, cUSDContractAddress)
+    const _web3 = kit.web3
+    const cUSDContract = await new _web3.eth.Contract(erc20Abi, cUSDContractAddress)
 
+    // console.log(cUSDContract);
     const result = await cUSDContract.methods
       .approve(TiketContractAddress, _price)
       .send({ from: kit.defaultAccount })
@@ -90,9 +98,31 @@ function MyApp({ Component, pageProps }) {
     try {
       if (contract) {
         const result = await contract.methods
-          .buyTicket(index, id)
-          .send({ from: kit.defaultAccount, value: _price })
+          .buyTicket(id, index)
+          .send({ from: kit.defaultAccount })
         // console.log(result)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async function buyTicketItem(_price, index, id) {
+    // approve cUSD price to contract
+    try {
+      const res = await approve(_price)
+    } catch (error) {
+      console.log({ error })
+      console.error(error)
+    }
+
+    // buy ticket
+    try {
+      if (contract) {
+        const result = await contract.methods
+          .buyTicketItem(id, index)
+          .send({ from: kit.defaultAccount })
+        // console.log(result)  
       }
     } catch (error) {
       console.error(error)
@@ -134,7 +164,8 @@ function MyApp({ Component, pageProps }) {
     getCart,
     getCartTicketItems,
     getBalance,
-    buyTicket
+    buyTicket,
+    buyTicketItem
   };
   return (
     <div>

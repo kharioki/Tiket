@@ -5,10 +5,10 @@ import { useRouter } from 'next/router'
 import { TicketCard } from "../../components/TicketCard";
 import { Cart } from '../../components/Cart';
 import { SwagModal } from '../../components/SwagModal';
-import { getTicket, getTicketItems, createTicketItem, buyTicketItem } from '../../utils/methods';
+import { getTicket, getTicketItems, createTicketItem } from '../../utils/methods';
 
 export default function TicketPage(props) {
-  const { showCart, handleCloseCart, contract, accountAddress, kit, approve, getCartTicketItems, cart, cartItems } = props;
+  const { showCart, handleCloseCart, contract, accountAddress, kit, getCartTicketItems, cart, cartItems, buyTicketItem } = props;
   const [showModal, setShowModal] = useState(false);
   const [ticket, setTicket] = useState(null);
   const [items, setItems] = useState([]);
@@ -43,7 +43,7 @@ export default function TicketPage(props) {
   // buy ticket item
   const purchaseItem = async (index, price, id) => {
     setProcessing(true);
-    await buyTicketItem(contract, index, price, id, kit, approve);
+    await buyTicketItem(price, index, id);
     setProcessing(false);
     // refetch ticket items
     getAllTicketItems();

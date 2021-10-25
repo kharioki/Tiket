@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import { newKitFromWeb3 } from '@celo/contractkit';
+import BigNumber from 'bignumber.js';
 
 import tiketAbi from '../contract/tiket.abi.json';
 import erc20Abi from '../contract/erc20.abi.json';
@@ -12,11 +13,11 @@ import Header from '../components/Header';
 
 const ERC20_DECIMALS = 18;
 const cUSDContractAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1"
-const TiketContractAddress = "0x81AC0B2059b6bda4D3F167A9f1B277C7fFe13526"
+const TiketContractAddress = "0x20B1a35580B0B6d68A2D80bD008aF4003AAd2c30"
 
 function MyApp({ Component, pageProps }) {
   const [showCart, setShowCart] = useState(false);
-  const [balance, setBalance] = useState(null);
+  const [balance, setBalance] = useState(0);
   const [kit, setKit] = useState(null);
   const [contract, setContract] = useState(null);
   const [accountAddress, setAccountAddress] = useState(null);
@@ -29,6 +30,8 @@ function MyApp({ Component, pageProps }) {
         await window.celo.enable();
         const web3 = new Web3(window.celo);
         let kit = newKitFromWeb3(web3);
+        // let kit = newKit("https://alfajores-forno.celo-testnet.org");
+
         await setKit(kit);
 
         const accounts = await kit.web3.eth.getAccounts();
@@ -39,6 +42,23 @@ function MyApp({ Component, pageProps }) {
 
         const _contract = new kit.web3.eth.Contract(tiketAbi, TiketContractAddress);
         await setContract(_contract);
+
+        // web3 events
+        let options = {
+          fromBlock: 0,
+          address: ["0x81AC0B2059b6bda4D3F167A9f1B277C7fFe13526"], //Only get events from specific addresses
+          topics: [],
+        };
+
+        let subscription = web3.eth.subscribe("logs", options, (err, event) => {
+          if (!err) console.log(event);
+        });
+
+        subscription.on('data', event => {
+          if (contract) {
+            getBalance()
+          }
+        })
 
       } catch (error) {
         console.error(error);
@@ -67,38 +87,58 @@ function MyApp({ Component, pageProps }) {
   }
 
   async function approve(_price) {
-    const cUSDContract = new kit.web3.eth.Contract(erc20Abi, cUSDContractAddress)
+    // const cUSDContract = new kit.web3.eth.Contract(erc20Abi, cUSDContractAddress)
+    const _web3 = kit.web3
+    const cUSDContract = await new _web3.eth.Contract(erc20Abi, cUSDContractAddress)
 
+    const cost = new BigNumber(_price).shiftedBy(ERC20_DECIMALS).toString();
+
+    // console.log(cUSDContract);
     const result = await cUSDContract.methods
-      .approve(TiketContractAddress, _price)
+      .approve(TiketContractAddress, cost)
       .send({ from: kit.defaultAccount })
 
     // console.log(result)
     return result
   }
 
-  async function buyTicket(_price, index, id) {
-    const cUSDContract = new kit.web3.eth.Contract(erc20Abi, cUSDContractAddress)
-
-    console.log(cUSDContract)
-    console.log(_price)
-    console.log('kit', kit.defaultAccount)
+  async function buyTicket(_price, _index, _id) {
     // approve cUSD price to contract
     try {
-      // await approve(_price)
-      const result = await cUSDContract.methods
-        .approve(TiketContractAddress, _price)
-        .send({ from: kit.defaultAccount })
+      const res = await approve(_price)
     } catch (error) {
       console.error(error)
     }
 
     // buy ticket
     try {
-      const result = await contract.methods
-        .buyTicket(id, index)
-        .send({ from: kit.defaultAccount })
-      console.log(result)
+      if (contract) {
+        const result = await contract.methods
+          .buyTicket(_id, _index)
+          .send({ from: kit.defaultAccount })
+        // console.log(result)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async function buyTicketItem(_price, _index, _ticket) {
+    // approve cUSD price to contract
+    try {
+      const res = await approve(_price)
+    } catch (error) {
+      console.error(error)
+    }
+
+    // buy ticket
+    try {
+      if (contract) {
+        const result = await contract.methods
+          .buyTicketItem(_ticket, _index)
+          .send({ from: kit.defaultAccount })
+        // console.log(result)  
+      }
     } catch (error) {
       console.error(error)
     }
@@ -117,17 +157,12 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   useEffect(() => {
-    if (kit && accountAddress) {
-      getBalance();
-    }
-  }, [kit, accountAddress]);
-
-  useEffect(() => {
-    if (contract && accountAddress) {
+    if (kit && contract && accountAddress) {
       getCart();
       getCartTicketItems();
+      getBalance();
     }
-  }, [contract, accountAddress, balance]);
+  }, [kit, contract, accountAddress, balance]);
 
   const allProps = {
     ...pageProps,
@@ -144,7 +179,8 @@ function MyApp({ Component, pageProps }) {
     getCart,
     getCartTicketItems,
     getBalance,
-    buyTicket
+    buyTicket,
+    buyTicketItem
   };
   return (
     <div>

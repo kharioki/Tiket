@@ -80,17 +80,20 @@ function MyApp({ Component, pageProps }) {
   async function buyTicket(_price, index, id) {
     // approve cUSD price to contract
     try {
-      await approve(_price)
+      const res = await approve(_price)
     } catch (error) {
+      console.log({ error })
       console.error(error)
     }
 
     // buy ticket
     try {
-      const result = await contract.methods
-        .buyTicket(id, index)
-        .send({ from: kit.defaultAccount })
-      // console.log(result)
+      if (contract) {
+        const result = await contract.methods
+          .buyTicket(index, id)
+          .send({ from: kit.defaultAccount, value: _price })
+        // console.log(result)
+      }
     } catch (error) {
       console.error(error)
     }

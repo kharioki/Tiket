@@ -89,7 +89,7 @@ function MyApp({ Component, pageProps }) {
     const _web3 = kit.web3
     const cUSDContract = await new _web3.eth.Contract(erc20Abi, cUSDContractAddress)
 
-    // console.log(cUSDContract);
+    console.log(cUSDContract);
     const result = await cUSDContract.methods
       .approve(TiketContractAddress, _price)
       .send({ from: kit.defaultAccount })

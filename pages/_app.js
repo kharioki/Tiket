@@ -41,10 +41,23 @@ function MyApp({ Component, pageProps }) {
         const _contract = new kit.web3.eth.Contract(tiketAbi, TiketContractAddress);
         await setContract(_contract);
 
-        // const _cUSDContract = new kit.web3.eth.Contract(erc20Abi, cUSDContractAddress)
-        // await setCUSDContract(_cUSDContract);
+        // web3 events
+        let options = {
+          fromBlock: 0,
+          address: ["0x81AC0B2059b6bda4D3F167A9f1B277C7fFe13526"], //Only get events from specific addresses
+          topics: [],
+        };
 
-        // console.log('cUSDContract', cUSDContract)
+        let subscription = web3.eth.subscribe("logs", options, (err, event) => {
+          if (!err) console.log(event);
+        });
+
+        subscription.on('data', event => {
+          if (contract) {
+            getBalance()
+          }
+        })
+
       } catch (error) {
         console.error(error);
       }

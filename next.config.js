@@ -1,7 +1,4 @@
-const isProd = process.env.NODE_ENV === 'production'
-
 module.exports = {
-  assetPrefix: isProd ? '/tiket/' : '',
   webpack5: false,
   webpack: (config) => {
     config.node = {
@@ -10,7 +7,6 @@ module.exports = {
       path: true,
       url: false,
       net: "empty",
-      electron: "empty",
     };
     return config;
   },

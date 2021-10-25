@@ -34,7 +34,6 @@ export default function HomePage(props) {
 
   //buying a ticket
   const purchaseTicket = async (index, price, id) => {
-    console.log(price);
     setLoading(true);
     await buyTicket(price, index, id);
     // refetch tickets

@@ -78,17 +78,9 @@ function MyApp({ Component, pageProps }) {
   }
 
   async function buyTicket(_price, index, id) {
-    const cUSDContract = new kit.web3.eth.Contract(erc20Abi, cUSDContractAddress)
-
-    console.log(cUSDContract)
-    console.log(_price)
-    console.log('kit', kit.defaultAccount)
     // approve cUSD price to contract
     try {
-      // await approve(_price)
-      const result = await cUSDContract.methods
-        .approve(TiketContractAddress, _price)
-        .send({ from: kit.defaultAccount })
+      await approve(_price)
     } catch (error) {
       console.error(error)
     }
@@ -98,7 +90,7 @@ function MyApp({ Component, pageProps }) {
       const result = await contract.methods
         .buyTicket(id, index)
         .send({ from: kit.defaultAccount })
-      console.log(result)
+      // console.log(result)
     } catch (error) {
       console.error(error)
     }
@@ -117,17 +109,12 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   useEffect(() => {
-    if (kit && accountAddress) {
-      getBalance();
-    }
-  }, [kit, accountAddress]);
-
-  useEffect(() => {
-    if (contract && accountAddress) {
+    if (kit && contract && accountAddress) {
       getCart();
       getCartTicketItems();
+      getBalance();
     }
-  }, [contract, accountAddress, balance]);
+  }, [kit, contract, accountAddress, balance]);
 
   const allProps = {
     ...pageProps,

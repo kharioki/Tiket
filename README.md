@@ -49,3 +49,16 @@ build
 ```bash
     npm run build
 ```
+
+_____
+
+### Final product
+
+### Web
+
+![Screenshot 2021-10-26 at 11 41 33](https://user-images.githubusercontent.com/22290070/140872553-40287116-b856-4bac-b050-fb6d272e49d8.png)
+
+### Mobile
+
+![Screenshot 2021-10-11 at 20 00 13](https://user-images.githubusercontent.com/22290070/140872626-ecad1ac6-33e3-4be9-87ea-3cc820732f64.png)
+
